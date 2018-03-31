@@ -21,23 +21,14 @@ Camera::Camera(Camera const &camera){
 }
 
 //GETTERS
-string Camera::getMarca(){
-  return Marca;
-}
-string Camera::getModelo(){
-  return Modelo;
-}
 string Camera::getSensor(){
   return Sensor;
 }
+string Camera::getAllInfo(){
+  return Marca + ' ' + Modelo + " - " + Sensor;
+}
 
 //SETTERS
-void Camera::setMarca(string marca){
-  Marca = marca;
-}
-void Camera::setModelo(string modelo){
-  Modelo = modelo;
-}
 void Camera::setSensor(string sensor){
   Sensor = sensor;
 }
