@@ -1,21 +1,20 @@
 #include "Produto.h"
 
-
 //GETTERS
-std::string Produto::getMarca(){
+string Produto::getMarca(){
   return Marca;
 }
-std::string Produto::getModelo(){
+string Produto::getModelo(){
   return Modelo;
 }
 int Produto::getPeso(){
   return Peso;
 }
 //SETTERS
-void Produto::setMarca(std::string marca){
+void Produto::setMarca(string marca){
   Marca = marca;
 }
-void Produto::setModelo(std::string modelo){
+void Produto::setModelo(string modelo){
   Modelo = modelo;
 }
 void Produto::setPeso(int peso){

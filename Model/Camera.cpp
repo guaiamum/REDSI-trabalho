@@ -1,12 +1,10 @@
 #include "Camera.h"
 
-using namespace std;
-
 Camera::Camera(){
   Marca = "Desconhecida";
   Modelo = "Desconhecido";
-  Sensor = "Desconhecido";
   Peso = 0;
+  Sensor = "Desconhecido";
 }
 
 Camera::Camera(string marca, string modelo, string sensor, int peso){
