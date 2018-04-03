@@ -7,18 +7,18 @@ Camera::Camera(){
   Sensor = "Desconhecido";
 }
 
-Camera::Camera(string marca, string modelo, string sensor, int peso){
+Camera::Camera(string marca, string modelo, int peso, string sensor){
   Marca = marca;
   Modelo = modelo;
-  Sensor = sensor;
   Peso = peso;
+  Sensor = sensor;
 }
 
 Camera::Camera(Camera const &camera){
   Marca = camera.Marca;
   Modelo = camera.Modelo;
-  Sensor = camera.Sensor;
   Peso = camera.Peso;
+  Sensor = camera.Sensor;
 }
 
 //GETTERS
