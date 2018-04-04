@@ -8,6 +8,8 @@ public:
   Flash();
   Flash(string marca, string modelo, int peso);
   Flash(Flash const &flash);
+  //GETTERS
+  string getAllInfo();
 };
 
 #endif

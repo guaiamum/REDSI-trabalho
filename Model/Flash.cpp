@@ -16,3 +16,8 @@ Flash::Flash(Flash const &flash){
   Modelo = flash.Modelo;
   Peso = flash.Peso;
 }
+
+//GETTERS
+string Flash::getAllInfo(){
+  return Marca + ' ' + Modelo + " - " + std::to_string(Peso);
+}
