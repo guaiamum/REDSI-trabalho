@@ -1,8 +1,11 @@
+#COMPILE ALL
 all: main.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
 	g++ -o main main.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
 
+#CLEAN AND COMPILE ALL
 allc: clean all
 
+#OBJECTS
 main.o: main.cpp
 	g++ -c main.cpp
 

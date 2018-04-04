@@ -20,6 +20,23 @@ ProdutoPreco::ProdutoPreco(ProdutoPreco const &ProdPreco){
   Novo = ProdPreco.Novo;
 }
 
+//GETTERS
+string ProdutoPreco::getFk_Produto(){
+  return Fk_Produto;
+}
+string ProdutoPreco::getTipo_Produto(){
+  return Tipo_Produto;
+}
+int ProdutoPreco::getQuantidade(){
+  return Quantidade;
+}
+float ProdutoPreco::getPreco(){
+  return Preco;
+}
+bool ProdutoPreco::getNovo(){
+  return Novo;
+}
+
 //SETTERS
 void ProdutoPreco::setFk_Produto(string fk){
   Fk_Produto = fk;
