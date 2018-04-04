@@ -1,5 +1,5 @@
-all: main.o Produto.o Camera.o Lente.o Flash.o Tripe.o
-	g++ -o main main.o Produto.o Camera.o Lente.o Flash.o Tripe.o
+all: main.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
+	g++ -o main main.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
 
 allc: clean all
 
@@ -21,11 +21,14 @@ Flash.o: Model/Flash.cpp
 Tripe.o: Model/Tripe.cpp
 	g++ -c Model/Tripe.cpp
 
+ProdutoPreco.o: Model/ProdutoPreco.cpp
+	g++ -c Model/ProdutoPreco.cpp
+
 #******************************
 #TESTING AND CLEANING
-test: Produto.o Camera.o Lente.o Flash.o Tripe.o
+test: Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
 	clear
-	g++ -o test test.cpp Produto.o Camera.o Lente.o Flash.o Tripe.o
+	g++ -o test test.cpp Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
 	./test
 
 #******************************
