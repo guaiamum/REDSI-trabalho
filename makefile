@@ -1,7 +1,7 @@
-allc: clean all
-
 all: main.o Produto.o Camera.o Lente.o Flash.o Tripe.o
 	g++ -o main main.o Produto.o Camera.o Lente.o Flash.o Tripe.o
+
+allc: clean all
 
 main.o: main.cpp
 	g++ -c main.cpp

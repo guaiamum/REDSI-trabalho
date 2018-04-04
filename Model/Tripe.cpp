@@ -23,7 +23,7 @@ Tripe::Tripe(Tripe const &tripe){
 int Tripe::getCarga_max(){
   return Carga_max;
 }
-string getAllInfo(){
+string Tripe::getAllInfo(){
   return Marca + ' ' + Modelo + " - " + std::to_string(Peso) + " - carga: " + std::to_string(Carga_max);
 }
 
