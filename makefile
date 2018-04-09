@@ -38,6 +38,6 @@ test: Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
 # CLEANING CONSOLE AND DIRECTORY
 clean:
 	clear
-	rm -rf *o main
+	rm -rf *o main test
 
 .PHONY: test

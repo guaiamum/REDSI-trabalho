@@ -22,10 +22,11 @@ int main() {
 //LENTE
   Lente l1 = Lente();
   l1.setMarca("Sigma");
-  Lente l2 = Lente("Nikon", "Nikkor AF", 280, true, 70, 300, 1.8);
+  Lente l2 = Lente("Nikon", "Nikkor AF", 280, true, 70, 300, "1.8");
   Lente l3 = Lente(l1);
   l3.setZoom(false);
   l3.setZoom_max(18);
+  l3.setAbertura("34");
   //printing
   cout << "\n\tLENTES:\n" << l1.getAllInfo() << endl;
   cout << l2.getAllInfo() << endl;
