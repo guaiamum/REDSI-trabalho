@@ -1,5 +1,4 @@
 #include "Lente.h"
-#include <iostream>
 
 Lente::Lente(){
   Marca = "Desconhecida";
@@ -74,7 +73,6 @@ void Lente::setAbertura(string abertura){
 
 //OTHER
 bool Lente::validateAbertura(string abertura){
-  std::cout << abertura << endl;
   if(abertura == "1" || abertura == "1.1" || abertura == "1.2" || abertura == "1.4" ||
   abertura == "1.6" || abertura == "1.8" || abertura == "2" || abertura == "2.2" ||
   abertura == "2.5" || abertura == "2.8" || abertura == "3.2" || abertura == "3.5" ||
