@@ -19,7 +19,7 @@ public:
   void insert(Camera camera);
   void update(int id, Camera camera);
   // void removeById(int id);
-  // void getById(int id);
+  Camera getById(int id);
   Camera getByIdWithPrice(int id);
   // //findById(); findByMarca(); findByModelo();
   // void find(string busca);

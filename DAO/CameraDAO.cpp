@@ -1,5 +1,5 @@
 #include "CameraDAO.h"
-#include <iostream>
+// #include <iostream> //DEBUGING
 
 //TABLE NAME
 string CameraDAO::Table("CAMERA");
@@ -44,6 +44,37 @@ void CameraDAO::update(int id, Camera camera){
 
   /* Free pointers */
   delete stmt;
+}
+
+Camera CameraDAO::getById(int id){
+  sql::Statement *stmt;
+  sql::ResultSet  *res;
+
+  string query = "SELECT $.* FROM $ WHERE $.Id = " + std::to_string(id);
+  Generic::findAndReplaceAll(query, "$", this->Table);
+
+  /* Preparing statement */
+  stmt = this->con->createStatement();
+  res = stmt->executeQuery(query);
+  Camera camera = Camera();
+  bool found = true;
+
+  if (res->next()) {
+    // Camera(string marca, string modelo, int peso, string sensor);
+    camera.setId(res->getInt("Id"));
+    camera.setMarca(res->getString("Marca"));
+    camera.setModelo(res->getString("Modelo"));
+    camera.setPeso(res->getInt("Peso"));
+    camera.setSensor(res->getString("Sensor"));
+  } else {
+    found = false;
+  }
+
+  /* Free pointers */
+  delete stmt;
+  delete res;
+
+  return camera;
 }
 
 Camera CameraDAO::getByIdWithPrice(int id){
