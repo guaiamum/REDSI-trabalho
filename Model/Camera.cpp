@@ -26,7 +26,7 @@ string Camera::getSensor(){
   return Sensor;
 }
 string Camera::getAllInfo(){
-  return Marca + ' ' + Modelo + " - " + Sensor;
+  return std::to_string(Id) + ": " + Marca + ' ' + Modelo + " - " + Sensor + " (" + std::to_string(Peso) + ")";
 }
 
 //SETTERS

@@ -1,6 +1,6 @@
 #COMPILE ALL
-all: main.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
-	g++ -o main main.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
+all: main.o Produto.o Camera.o CameraDAO.o Lente.o Flash.o Tripe.o ProdutoPreco.o Generic.o
+	g++ -o main -I/usr/local/include -I/usr/local/include/cppconn main.o Generic.o Produto.o Camera.o CameraDAO.o Lente.o Flash.o Tripe.o ProdutoPreco.o -lmysqlcppconn
 
 #CLEAN AND COMPILE ALL
 allc: clean all
@@ -8,6 +8,9 @@ allc: clean all
 #OBJECTS
 main.o: main.cpp
 	g++ -c main.cpp
+
+Generic.o: Model/Generic.cpp
+	g++ -c Model/Generic.cpp
 
 Produto.o: Model/Produto.cpp
 	g++ -c Model/Produto.cpp
@@ -27,12 +30,21 @@ Tripe.o: Model/Tripe.cpp
 ProdutoPreco.o: Model/ProdutoPreco.cpp
 	g++ -c Model/ProdutoPreco.cpp
 
+#DAO
+CameraDAO.o: DAO/CameraDAO.cpp
+	g++ -c DAO/CameraDAO.cpp
+
 #******************************
-#TESTING AND CLEANING
+#TESTING
 test: Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
 	clear
-	g++ -o test test.cpp Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
+	g++ -o test -I/usr/local/include -I/usr/local/include/cppconn test.cpp Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o CameraDAO.o -lmysqlcppconn
 	./test
+
+#TESTING DB CONNECT
+framework: Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o CameraDAO.o Generic.o
+	g++ -o framework -I/usr/local/include -I/usr/local/include/cppconn framework.cpp Generic.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o CameraDAO.o -lmysqlcppconn
+	./framework
 
 #******************************
 # CLEANING CONSOLE AND DIRECTORY
@@ -40,4 +52,4 @@ clean:
 	clear
 	rm -rf *o main test
 
-.PHONY: test
+.PHONY: test framework

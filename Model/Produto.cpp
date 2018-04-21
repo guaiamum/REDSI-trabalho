@@ -1,6 +1,9 @@
 #include "Produto.h"
 
 //GETTERS
+int Produto::getId(){
+  return Id;
+}
 string Produto::getMarca(){
   return Marca;
 }
@@ -11,6 +14,9 @@ int Produto::getPeso(){
   return Peso;
 }
 //SETTERS
+void Produto::setId(int id){
+  Id = id;
+}
 void Produto::setMarca(string marca){
   Marca = marca;
 }

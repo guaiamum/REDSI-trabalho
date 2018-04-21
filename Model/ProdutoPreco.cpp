@@ -5,7 +5,7 @@ ProdutoPreco::ProdutoPreco(){
   Preco = 0.0; // €
   Novo = true;
 }
-ProdutoPreco::ProdutoPreco(string fk_Produto, string tipo_Produto, int quantidade, float preco, bool novo){
+ProdutoPreco::ProdutoPreco(int fk_Produto, string tipo_Produto, int quantidade, float preco, bool novo){
   Fk_Produto = fk_Produto;
   Tipo_Produto = tipo_Produto;
   Quantidade = quantidade;
@@ -21,7 +21,7 @@ ProdutoPreco::ProdutoPreco(ProdutoPreco const &ProdPreco){
 }
 
 //GETTERS
-string ProdutoPreco::getFk_Produto(){
+int ProdutoPreco::getFk_Produto(){
   return Fk_Produto;
 }
 string ProdutoPreco::getTipo_Produto(){
@@ -38,7 +38,7 @@ bool ProdutoPreco::getNovo(){
 }
 
 //SETTERS
-void ProdutoPreco::setFk_Produto(string fk){
+void ProdutoPreco::setFk_Produto(int fk){
   Fk_Produto = fk;
 }
 void ProdutoPreco::setTipo_Produto(string tipo){

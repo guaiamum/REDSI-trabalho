@@ -37,30 +37,23 @@ int main(int argc, const char **argv)
     con->setSchema(database);
 
     //TESTING!!!!!
-    // Camera c1 = Camera("Nikon","D7000", 130,"Full-frame");
+    Camera c1 = Camera("Nikon","D7000", 130,"Full-frame");
     CameraDAO camera_manager = CameraDAO(con);
 
-    // camera_manager.insert(c1);
+    camera_manager.insert(c1);
 
-    // cout << c1.getAllInfo() << endl;
+    cout << c1.getAllInfo() << endl;
     int id;
     cout << "Digite o Id da camera: ";
     cin >> id;
-    //
-    // Camera c2 = Camera();
-    // c2.setId(id);
-    // c2.setMarca("Canon");
-    // c2.setModelo("7D");
-    // c2.setPeso(1450);
-    // c2.setSensor("Full-frame");
-    // cout <<"To update-> \t" << c2.getAllInfo() << endl;
-    //
-    // camera_manager.update(id, c2);
 
-    Camera c3 = camera_manager.getByIdWithPrice(id);
+    c1.setId(id);
+    c1.setModelo("7D");
+    c1.setPeso(1450);
+    c1.setSensor("Full-frame");
+    cout << c1.getAllInfo() << endl;
 
-    cout << c3.getAllInfo() << endl;
-
+    // camera_manager.update(c1);
 
     delete con;
 

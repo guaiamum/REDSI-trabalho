@@ -1,2 +1,5 @@
 #Ignore compiled objects
 *.o
+
+#Ignore my DB info
+info.cpp
