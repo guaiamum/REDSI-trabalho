@@ -1,19 +1,15 @@
 #ifndef CameraDAO_H
 #define CameraDAO_H
 
-/* MYSQL */
-#include "mysql_connection.h"
-#include <cppconn/prepared_statement.h>
-#include <cppconn/resultset.h>
-#include <cppconn/statement.h>
 /* OTHER */
-#include <string>
-#include "../Model/Generic.cpp"
+#include "GenericDAO.h"
 #include "../Model/Camera.h"
+#include "../Model/ProdutoPreco.h"
 
-class CameraDAO : public Camera {
-  static string Table;
-  sql::Connection* con;
+class CameraDAO : public GenericDAO{
+  static std::string Table;
+  Camera camera;
+  ProdutoPreco preco;
 public:
   CameraDAO(sql::Connection *con);
   void insert(Camera camera);

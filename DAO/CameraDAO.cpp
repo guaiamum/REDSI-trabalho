@@ -4,8 +4,8 @@
 //TABLE NAME
 string CameraDAO::Table("CAMERA");
 
-CameraDAO::CameraDAO(sql::Connection* con){
-  this->con = con;
+CameraDAO::CameraDAO(sql::Connection* con) : GenericDAO(con){
+  // this->con = con;
 }
 
 void CameraDAO::insert(Camera camera){

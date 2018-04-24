@@ -14,8 +14,10 @@
 #include <cppconn/prepared_statement.h>
 
 #include "info.cpp"
-#include "Model/Camera.h"
-#include "DAO/CameraDAO.h"
+// #include "Model/Camera.h"
+// #include "DAO/CameraDAO.h"
+#include "Model/Lente.h"
+#include "DAO/LenteDAO.h"
 
 using namespace std;
 
@@ -35,33 +37,37 @@ int main(int argc, const char **argv)
     con = driver->connect(url, user, pass);
     /* Connect to the MySQL test database */
     con->setSchema(database);
+    /* Create them tables */
+    // stmt = con->createStatement();
+    // stmt->execute("DROP TABLE IF EXISTS test");
+    // stmt->execute("CREATE TABLE test(id INT)");
+    // delete stmt;
+
+
 
     //TESTING!!!!!
-    // Camera c1 = Camera("Nikon","D7000", 130,"Full-frame");
-    CameraDAO camera_manager = CameraDAO(con);
-
-    // camera_manager.insert(c1);
-
-    // cout << c1.getAllInfo() << endl;
     int id;
-    cout << "Digite o Id da camera: ";
-    cin >> id;
-    //
-    // Camera c2 = Camera();
+    //CAMERA
+    // CameraDAO camera_manager = CameraDAO(con);
+    // Camera c1 = Camera("Nikon","D7000", 130,"Full-frame");
+    // camera_manager.insert(c1);
+    // cout << "Digite o Id da camera: ";
+    // cin >> id;
+    // Camera c2 = Camera("Canon,"7D",1450,"Full-frame");
     // c2.setId(id);
-    // c2.setMarca("Canon");
-    // c2.setModelo("7D");
-    // c2.setPeso(1450);
-    // c2.setSensor("Full-frame");
-    // cout <<"To update-> \t" << c2.getAllInfo() << endl;
-    //
     // camera_manager.update(id, c2);
+    // Camera c3 = camera_manager.getById(id);
+    // cout << c3.getAllInfo() << endl;
 
-    Camera c3 = camera_manager.getByIdWithPrice(id);
+    //LENTE
+    LenteDAO lente_man = LenteDAO(con);
+    cout << "Digite o Id da lente: ";
+    cin >> id;
+    Lente l1 = lente_man.getById(id);
+    cout << l1.getAllInfo() << endl;
 
-    cout << c3.getAllInfo() << endl;
 
-
+    /* FREE POINTERS */
     delete con;
 
   } catch (sql::SQLException &e) {
