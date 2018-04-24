@@ -14,8 +14,8 @@
 #include <cppconn/prepared_statement.h>
 
 #include "info.cpp"
-// #include "Model/Camera.h"
-// #include "DAO/CameraDAO.h"
+#include "Model/Camera.h"
+#include "DAO/CameraDAO.h"
 #include "Model/Lente.h"
 #include "DAO/LenteDAO.h"
 
@@ -48,16 +48,16 @@ int main(int argc, const char **argv)
     //TESTING!!!!!
     int id;
     //CAMERA
-    // CameraDAO camera_manager = CameraDAO(con);
+    CameraDAO camera_manager = CameraDAO(con);
     // Camera c1 = Camera("Nikon","D7000", 130,"Full-frame");
     // camera_manager.insert(c1);
-    // cout << "Digite o Id da camera: ";
-    // cin >> id;
+    cout << "Digite o Id da camera: ";
+    cin >> id;
     // Camera c2 = Camera("Canon,"7D",1450,"Full-frame");
     // c2.setId(id);
     // camera_manager.update(id, c2);
-    // Camera c3 = camera_manager.getById(id);
-    // cout << c3.getAllInfo() << endl;
+    Camera c3 = camera_manager.getById(id);
+    cout << c3.getAllInfo() << endl;
 
     //LENTE
     LenteDAO lente_man = LenteDAO(con);

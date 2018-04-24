@@ -19,6 +19,7 @@ public:
   Camera getByIdWithPrice(int id);
   // //findById(); findByMarca(); findByModelo();
   // void find(string busca);
+  Camera sqlToModel(sql::ResultSet *res);
 
 };
 

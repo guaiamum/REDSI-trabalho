@@ -19,6 +19,7 @@ public:
   // Lente getByIdWithPrice(int id);
   // //findById(); findByMarca(); findByModelo();
   // void find(string busca);
+  Lente sqlToModel(sql::ResultSet *res);
 
 };
 

@@ -56,19 +56,8 @@ Camera CameraDAO::getById(int id){
   /* Preparing statement */
   stmt = this->con->createStatement();
   res = stmt->executeQuery(query);
-  Camera camera = Camera();
-  bool found = true;
 
-  if (res->next()) {
-    // Camera(string marca, string modelo, int peso, string sensor);
-    camera.setId(res->getInt("Id"));
-    camera.setMarca(res->getString("Marca"));
-    camera.setModelo(res->getString("Modelo"));
-    camera.setPeso(res->getInt("Peso"));
-    camera.setSensor(res->getString("Sensor"));
-  } else {
-    found = false;
-  }
+  Camera camera = sqlToModel(res);
 
   /* Free pointers */
   delete stmt;
@@ -87,20 +76,32 @@ Camera CameraDAO::getByIdWithPrice(int id){
   /* Preparing statement */
   stmt = this->con->createStatement();
   res = stmt->executeQuery(query);
+
+  Camera camera = sqlToModel(res);
+
+  /* Free pointers */
+  delete stmt;
+  delete res;
+
+  return camera;
+}
+
+/**
+    Parses the ResultSet to the corresponding Model structure.
+
+    @param ResultSet res.
+    @return an object of the corresponding type.
+*/
+Camera CameraDAO::sqlToModel(sql::ResultSet *res){
   Camera camera = Camera();
 
   if (res->next()) {
-    // Camera(string marca, string modelo, int peso, string sensor);
     camera.setId(res->getInt("Id"));
     camera.setMarca(res->getString("Marca"));
     camera.setModelo(res->getString("Modelo"));
     camera.setPeso(res->getInt("Peso"));
     camera.setSensor(res->getString("Sensor"));
   }
-
-  /* Free pointers */
-  delete stmt;
-  delete res;
 
   return camera;
 }
