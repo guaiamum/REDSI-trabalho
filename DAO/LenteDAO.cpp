@@ -1,4 +1,5 @@
 #include "LenteDAO.h"
+// #include <iostream> //DEBUGING
 
 /**
     Sets the current table name.
@@ -39,6 +40,51 @@ Lente LenteDAO::getById(int id){
 }
 
 /**
+    Inserts the given object.
+
+    @param Object with set properties.
+    @return nothing.
+*/
+void LenteDAO::insert(Lente lente){
+  sql::PreparedStatement *stmt;
+  string query = "INSERT INTO $(`Marca`, `Modelo`, `Peso`, `Zoom`, `Zoom_min`, `Zoom_max`, `Abertura`) VALUES (?,?,?,?,?,?,?)";
+  Generic::findAndReplaceAll(query, "$", this->Table);
+
+  /* Preparing statement */
+  stmt = this->con->prepareStatement(query);
+  modelToSql(stmt,lente);
+
+  /* Execute statement */
+  stmt->execute();
+
+  /* Free pointers */
+  delete stmt;
+}
+
+/**
+    Updates the object of the given Id.
+
+    @param int Id, Object with set properties.
+    @return nothing.
+*/
+void LenteDAO::update(int id, Lente lente){
+  sql::PreparedStatement *stmt;
+  string query = "UPDATE $ SET `Marca` = ?, `Modelo` = ?, `Peso` = ?, `Zoom` = ?, `Zoom_min` = ?, `Zoom_max` = ?, `Abertura` = ? WHERE Id = ?";
+  Generic::findAndReplaceAll(query, "$", this->Table);
+
+  /* Preparing statement */
+  stmt = this->con->prepareStatement(query);
+  modelToSql(stmt,lente);
+  stmt->setInt(8,id);
+
+  /* Execute statement */
+  stmt->execute();
+
+  /* Free pointers */
+  delete stmt;
+}
+
+/**
     Parses the ResultSet to the corresponding Model structure.
 
     @param ResultSet res.
@@ -60,4 +106,25 @@ Lente LenteDAO::sqlToModel(sql::ResultSet *res){
   }
 
   return lente;
+}
+
+/**
+    Parses the Model structure to the PreparedStatement.
+
+    @param ResultSet res.
+    @return an object of the corresponding type.
+*/
+void LenteDAO::modelToSql(sql::PreparedStatement *stmt, Lente lente){
+  stmt->setString(1,lente.getMarca());
+  stmt->setString(2,lente.getModelo());
+  stmt->setInt(3,lente.getPeso());
+  stmt->setBoolean(4,lente.getZoom());
+  stmt->setInt(5,lente.getZoom_min());
+  if(lente.getZoom()){
+    stmt->setInt(6,lente.getZoom_max());
+  } else {
+    stmt->setNull(6,0);
+  }
+  stmt->setString(7,lente.getAbertura());
+
 }

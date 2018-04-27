@@ -12,14 +12,15 @@ class LenteDAO : public GenericDAO{
   ProdutoPreco preco;
 public:
   LenteDAO(sql::Connection *con);
-  // void insert(Camera camera);
-  // void update(int id, Camera camera);
+  void insert(Lente lente);
+  void update(int id, Lente lente);
   // void removeById(int id);
   Lente getById(int id);
   // Lente getByIdWithPrice(int id);
   // //findById(); findByMarca(); findByModelo();
   // void find(string busca);
   Lente sqlToModel(sql::ResultSet *res);
+  void modelToSql(sql::PreparedStatement *stmt, Lente lente);
 
 };
 
