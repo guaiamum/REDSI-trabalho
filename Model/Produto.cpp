@@ -1,5 +1,19 @@
 #include "Produto.h"
 
+Produto::Produto(){
+  Id = 0;
+  Marca = "Desconhecida";
+  Modelo = "Desconhecido";
+  Peso = 0;
+}
+
+Produto::Produto(int id, string marca, string modelo, int peso){
+  Id = id;
+  Marca = marca;
+  Modelo = modelo;
+  Peso = peso;
+}
+
 //GETTERS
 int Produto::getId(){
   return Id;

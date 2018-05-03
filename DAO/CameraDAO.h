@@ -8,17 +8,15 @@
 
 class CameraDAO : public GenericDAO{
   static std::string Table;
-  Camera camera;
-  ProdutoPreco preco;
 public:
   CameraDAO(sql::Connection *con);
   void insert(Camera camera);
   void update(int id, Camera camera);
-  // void removeById(int id);
+  void remove(int id);
   Camera getById(int id);
   Camera getByIdWithPrice(int id);
-  // //findById(); findByMarca(); findByModelo();
-  // void find(string busca);
+  // findByMarca(); findByModelo();
+  Camera find(string busca);
   Camera sqlToModel(sql::ResultSet *res);
 
 };

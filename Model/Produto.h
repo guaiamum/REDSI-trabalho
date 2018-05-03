@@ -12,6 +12,8 @@ protected:
   string Modelo;
   int Peso; //EM GRAMAS
 public:
+  Produto();
+  Produto(int id, string marca, string modelo, int peso);
   //GETTERS
   int getId();
   string getMarca();

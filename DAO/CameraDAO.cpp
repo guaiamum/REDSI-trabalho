@@ -7,10 +7,39 @@ string CameraDAO::Table("CAMERA");
 CameraDAO::CameraDAO(sql::Connection* con) : GenericDAO(con){}
 
 /**
+    Finds all objects with properties that look like the given string.
+
+    @param string Busca.
+    @return list of objects.
+*/
+// Camera CameraDAO::find(string busca){
+//   sql::Statement *stmt;
+//   sql::ResultSet  *res;
+//   string query = "SELECT $.* FROM $ WHERE $.Marca = " + busca;// + "";
+//   Generic::findAndReplaceAll(query, "$", this->Table);
+//
+//   /* Preparing statement */
+//   stmt = this->con->createStatement();
+//   res = stmt->executeQuery(query);
+//
+//   /* Parsing to Model structure */
+//   std::vector<Camera> cameras;
+//   // while(res->next()){
+//   //   cameras.push_back(sqlToModel(res));
+//   // }
+//
+//   /* Free pointers */
+//   delete stmt;
+//   delete res;
+//
+//   return cameras;
+// }
+
+/**
     Gets the firt object with the given Id.
 
     @param int Id.
-    @return an object of the corresponding type.
+    @return an objec.
 */
 Camera CameraDAO::getById(int id){
   sql::Statement *stmt;
@@ -23,7 +52,10 @@ Camera CameraDAO::getById(int id){
   res = stmt->executeQuery(query);
 
   /* Parsing to Model structure */
-  Camera camera = sqlToModel(res);
+  Camera camera;
+  if(res->next()){
+    camera = sqlToModel(res);
+  }
 
   /* Free pointers */
   delete stmt;
@@ -36,7 +68,7 @@ Camera CameraDAO::getById(int id){
     Gets the firt object with the given Id joining with any results from the Price table
 
     @param int Id.
-    @return an object of the corresponding type.
+    @return an object.
 */
 Camera CameraDAO::getByIdWithPrice(int id){
   sql::Statement *stmt;
@@ -49,7 +81,11 @@ Camera CameraDAO::getByIdWithPrice(int id){
   stmt = this->con->createStatement();
   res = stmt->executeQuery(query);
 
-  Camera camera = sqlToModel(res);
+  /* Parsing to Model structure */
+  Camera camera;
+  if(res->next()){
+    camera = sqlToModel(res);
+  }
 
   /* Free pointers */
   delete stmt;
@@ -108,21 +144,38 @@ void CameraDAO::update(int id, Camera camera){
 }
 
 /**
+    Removes the object of the given Id.
+
+    @param int Id.
+    @return nothing.
+*/
+void CameraDAO::remove(int id){
+  sql::PreparedStatement *stmt;
+  string query = "DELETE FROM $ WHERE Id = ? LIMIT 1";
+  Generic::findAndReplaceAll(query, "$", this->Table);
+
+  /* Preparing statement */
+  stmt = this->con->prepareStatement(query);
+  stmt->setInt(1,id);
+
+  /* Execute statement */
+  stmt->execute();
+
+  /* Free pointers */
+  delete stmt;
+}
+
+/**
     Parses the ResultSet to the corresponding Model structure.
 
     @param ResultSet res.
-    @return an object of the corresponding type.
+    @return an object.
 */
 Camera CameraDAO::sqlToModel(sql::ResultSet *res){
-  Camera camera = Camera();
-
-  if (res->next()) {
-    camera.setId(res->getInt("Id"));
-    camera.setMarca(res->getString("Marca"));
-    camera.setModelo(res->getString("Modelo"));
-    camera.setPeso(res->getInt("Peso"));
-    camera.setSensor(res->getString("Sensor"));
-  }
-
-  return camera;
+  return Camera(
+    res->getInt("Id"),
+    res->getString("Marca"),
+    res->getString("Modelo"),
+    res->getInt("Peso"),
+    res->getString("Sensor"));
 }

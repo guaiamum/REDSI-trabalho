@@ -8,8 +8,6 @@
 
 class LenteDAO : public GenericDAO{
   static std::string Table;
-  Lente lente;
-  ProdutoPreco preco;
 public:
   LenteDAO(sql::Connection *con);
   void insert(Lente lente);
@@ -17,8 +15,6 @@ public:
   // void removeById(int id);
   Lente getById(int id);
   // Lente getByIdWithPrice(int id);
-  // //findById(); findByMarca(); findByModelo();
-  // void find(string busca);
   Lente sqlToModel(sql::ResultSet *res);
   void modelToSql(sql::PreparedStatement *stmt, Lente lente);
 

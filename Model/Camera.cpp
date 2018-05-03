@@ -1,16 +1,10 @@
 #include "Camera.h"
 
-Camera::Camera(){
-  Marca = "Desconhecida";
-  Modelo = "Desconhecido";
-  Peso = 0;
+Camera::Camera() : Produto(){
   Sensor = "Desconhecido";
 }
 
-Camera::Camera(string marca, string modelo, int peso, string sensor){
-  Marca = marca;
-  Modelo = modelo;
-  Peso = peso;
+Camera::Camera(int id, string marca, string modelo, int peso, string sensor) : Produto(id, marca, modelo, peso){
   Sensor = sensor;
 }
 

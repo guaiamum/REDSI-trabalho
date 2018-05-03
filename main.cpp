@@ -48,27 +48,28 @@ int main(int argc, const char **argv)
     //TESTING!!!!!
     int id;
     //CAMERA
-    // CameraDAO camera_manager = CameraDAO(con);
+    CameraDAO camera_manager = CameraDAO(con);
     // // Camera c1 = Camera("Nikon","D7000", 130,"Full-frame");
     // // camera_manager.insert(c1);
-    // cout << "Digite o Id da camera: ";
-    // cin >> id;
+    cout << "Digite o Id da camera: ";
+    cin >> id;
     // // Camera c2 = Camera("Canon,"7D",1450,"Full-frame");
     // // c2.setId(id);
     // // camera_manager.update(id, c2);
-    // Camera c3 = camera_manager.getById(id);
-    // cout << c3.getAllInfo() << endl;
+    Camera c3 = camera_manager.getById(id);
+    cout << c3.getAllInfo() << endl;
+    // camera_manager.remove(id);
 
     //LENTE
-    LenteDAO lente_man = LenteDAO(con);
+    // LenteDAO lente_man = LenteDAO(con);
     // Lente l1 = Lente("Nikon", "Nikkor AF", 280, true, 70, 300, "1.8");
     // lente_man.insert(l1);
     // Lente l2 = Lente("Canon", "Fish-Eye", 320, false, 20, 0, "2.0");
-    cout << "Digite o Id da lente: ";
-    cin >> id;
+    // cout << "Digite o Id da lente: ";
+    // cin >> id;
     // lente_man.update(id,l2);
-    Lente l3 = lente_man.getById(1);
-    lente_man.update(id,l3);
+    // Lente l3 = lente_man.getById(1);
+    // lente_man.update(id,l3);
     // cout << l3.getAllInfo() << endl;
 
 

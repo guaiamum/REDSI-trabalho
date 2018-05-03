@@ -10,7 +10,7 @@ class Camera : public Produto{
   string Sensor;
 public:
   Camera();
-  Camera(string marca, string modelo, int peso, string sensor);
+  Camera(int id, string marca, string modelo, int peso, string sensor);
   Camera(Camera const &camera);
   //GETTERS
   string getSensor();

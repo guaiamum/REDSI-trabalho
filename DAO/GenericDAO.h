@@ -8,6 +8,7 @@
 #include <cppconn/statement.h>
 /* OTHER */
 #include <string>
+#include <list>
 #include "../Model/Generic.cpp"
 
 class GenericDAO {
