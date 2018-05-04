@@ -2,6 +2,8 @@
 #define Produto_H
 
 #include <string>
+#include <list>
+#include "ProdutoPreco.h"
 
 using namespace std;
 
@@ -11,6 +13,7 @@ protected:
   string Marca;
   string Modelo;
   int Peso; //EM GRAMAS
+  list<ProdutoPreco> precos;
 public:
   Produto();
   Produto(int id, string marca, string modelo, int peso);

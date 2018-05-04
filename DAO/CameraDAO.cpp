@@ -12,28 +12,28 @@ CameraDAO::CameraDAO(sql::Connection* con) : GenericDAO(con){}
     @param string Busca.
     @return list of objects.
 */
-// Camera CameraDAO::find(string busca){
-//   sql::Statement *stmt;
-//   sql::ResultSet  *res;
-//   string query = "SELECT $.* FROM $ WHERE $.Marca = " + busca;// + "";
-//   Generic::findAndReplaceAll(query, "$", this->Table);
-//
-//   /* Preparing statement */
-//   stmt = this->con->createStatement();
-//   res = stmt->executeQuery(query);
-//
-//   /* Parsing to Model structure */
-//   std::vector<Camera> cameras;
-//   // while(res->next()){
-//   //   cameras.push_back(sqlToModel(res));
-//   // }
-//
-//   /* Free pointers */
-//   delete stmt;
-//   delete res;
-//
-//   return cameras;
-// }
+list<Camera> CameraDAO::find(string busca){
+  sql::Statement *stmt;
+  sql::ResultSet  *res;
+  string query = "SELECT * FROM CAMERA WHERE (CONCAT(`Marca`,`Modelo`,`Sensor`) LIKE '%" + busca + "%')";
+  Generic::findAndReplaceAll(query, "$", this->Table);
+
+  /* Preparing statement */
+  stmt = this->con->createStatement();
+  res = stmt->executeQuery(query);
+
+  /* Parsing to Model structure */
+  list<Camera> cameras;
+  while(res->next()){
+    cameras.push_back(sqlToModel(res));
+  }
+
+  /* Free pointers */
+  delete stmt;
+  delete res;
+
+  return cameras;
+}
 
 /**
     Gets the firt object with the given Id.
@@ -44,7 +44,7 @@ CameraDAO::CameraDAO(sql::Connection* con) : GenericDAO(con){}
 Camera CameraDAO::getById(int id){
   sql::Statement *stmt;
   sql::ResultSet  *res;
-  string query = "SELECT $.* FROM $ WHERE $.Id = " + std::to_string(id);
+  string query = "SELECT * FROM $ WHERE Id = " + std::to_string(id);
   Generic::findAndReplaceAll(query, "$", this->Table);
 
   /* Preparing statement */
@@ -70,29 +70,29 @@ Camera CameraDAO::getById(int id){
     @param int Id.
     @return an object.
 */
-Camera CameraDAO::getByIdWithPrice(int id){
-  sql::Statement *stmt;
-  sql::ResultSet  *res;
-
-  string query = "SELECT $.*, PRODUTO_PRECO.Preco, PRODUTO_PRECO.Quantidade FROM $ INNER JOIN PRODUTO_PRECO ON $.Id = PRODUTO_PRECO.Id AND PRODUTO_PRECO.Tipo = '$' WHERE $.Id = " + std::to_string(id);
-  Generic::findAndReplaceAll(query, "$", this->Table);
-
-  /* Preparing statement */
-  stmt = this->con->createStatement();
-  res = stmt->executeQuery(query);
-
-  /* Parsing to Model structure */
-  Camera camera;
-  if(res->next()){
-    camera = sqlToModel(res);
-  }
-
-  /* Free pointers */
-  delete stmt;
-  delete res;
-
-  return camera;
-}
+// Camera CameraDAO::getByIdWithPrice(int id){
+//   sql::Statement *stmt;
+//   sql::ResultSet  *res;
+//
+//   string query = "SELECT $.*, PRODUTO_PRECO.Preco, PRODUTO_PRECO.Quantidade FROM $ INNER JOIN PRODUTO_PRECO ON $.Id = PRODUTO_PRECO.Fk_Produto AND PRODUTO_PRECO.Tipo = '$' WHERE $.Id = " + std::to_string(id);
+//   Generic::findAndReplaceAll(query, "$", this->Table);
+//
+//   /* Preparing statement */
+//   stmt = this->con->createStatement();
+//   res = stmt->executeQuery(query);
+//
+//   /* Parsing to Model structure */
+//   Camera camera;
+//   if(res->next()){
+//     camera = sqlToModel(res);
+//   }
+//
+//   /* Free pointers */
+//   delete stmt;
+//   delete res;
+//
+//   return camera;
+// }
 
 /**
     Inserts the given object.
@@ -107,10 +107,8 @@ void CameraDAO::insert(Camera camera){
 
   /* Preparing statement */
   stmt = this->con->prepareStatement(query);
-  stmt->setString(1,camera.getMarca());
-  stmt->setString(2,camera.getModelo());
-  stmt->setInt(3,camera.getPeso());
-  stmt->setString(4,camera.getSensor());
+  modelToSql(stmt, camera);
+
   /* Execute statement */
   stmt->execute();
 
@@ -131,10 +129,7 @@ void CameraDAO::update(int id, Camera camera){
 
   /* Preparing statement */
   stmt = this->con->prepareStatement(query);
-  stmt->setString(1,camera.getMarca());
-  stmt->setString(2,camera.getModelo());
-  stmt->setInt(3,camera.getPeso());
-  stmt->setString(4,camera.getSensor());
+  modelToSql(stmt, camera);
   stmt->setInt(5,id);
   /* Execute statement */
   stmt->execute();
@@ -178,4 +173,17 @@ Camera CameraDAO::sqlToModel(sql::ResultSet *res){
     res->getString("Modelo"),
     res->getInt("Peso"),
     res->getString("Sensor"));
+}
+
+/**
+    Parses the Model structure to the PreparedStatement.
+
+    @param ResultSet res.
+    @return an object .
+*/
+void CameraDAO::modelToSql(sql::PreparedStatement *stmt, Camera camera){
+  stmt->setString(1,camera.getMarca());
+  stmt->setString(2,camera.getModelo());
+  stmt->setInt(3,camera.getPeso());
+  stmt->setString(4,camera.getSensor());
 }

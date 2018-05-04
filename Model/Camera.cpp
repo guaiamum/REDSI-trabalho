@@ -9,6 +9,7 @@ Camera::Camera(int id, string marca, string modelo, int peso, string sensor) : P
 }
 
 Camera::Camera(Camera const &camera){
+  Id = camera.Id;
   Marca = camera.Marca;
   Modelo = camera.Modelo;
   Peso = camera.Peso;

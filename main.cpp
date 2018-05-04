@@ -46,19 +46,24 @@ int main(int argc, const char **argv)
 
 
     //TESTING!!!!!
-    int id;
+    int id; string busca;
     //CAMERA
     CameraDAO camera_manager = CameraDAO(con);
     // // Camera c1 = Camera("Nikon","D7000", 130,"Full-frame");
     // // camera_manager.insert(c1);
-    cout << "Digite o Id da camera: ";
-    cin >> id;
+    // cout << "Digite o Id da camera: ";
+    // cin >> id;
     // // Camera c2 = Camera("Canon,"7D",1450,"Full-frame");
     // // c2.setId(id);
     // // camera_manager.update(id, c2);
-    Camera c3 = camera_manager.getById(id);
-    cout << c3.getAllInfo() << endl;
+    // Camera c3 = camera_manager.getById(id);
+    // cout << c3.getAllInfo() << endl;
     // camera_manager.remove(id);
+    cout << "Digite a string a procurar: ";
+    std::getline(std::cin,busca);
+    list<Camera> lisCam = camera_manager.find(busca);
+    cout << lisCam.front().getAllInfo() << endl;
+    cout << lisCam.back().getAllInfo() << endl;
 
     //LENTE
     // LenteDAO lente_man = LenteDAO(con);
