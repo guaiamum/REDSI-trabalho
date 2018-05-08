@@ -21,6 +21,7 @@ public:
   int getQuantidade();
   float getPreco();
   bool getNovo();
+  string getAllInfo();
   //SETTERS
   void setFk_Produto(int fk);
   void setTipo_Produto(string tipo);

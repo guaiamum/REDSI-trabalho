@@ -36,6 +36,10 @@ float ProdutoPreco::getPreco(){
 bool ProdutoPreco::getNovo(){
   return Novo;
 }
+string ProdutoPreco::getAllInfo(){
+  string novo = (Novo) ? " Novo" : " Usado";
+  return "(" + std::to_string(Fk_Produto) + "): " + Tipo_Produto + " qtd: " +std::to_string(Quantidade) + " " + std::to_string(Preco) + "€" + novo;
+}
 
 //SETTERS
 void ProdutoPreco::setFk_Produto(int fk){

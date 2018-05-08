@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <stdexcept>
 /* uncomment for applications that use vectors */
@@ -14,12 +15,17 @@
 #include <cppconn/prepared_statement.h>
 
 #include "info.cpp"
+#include "Model/Generic.cpp"
+
 #include "Model/Camera.h"
 #include "DAO/CameraDAO.h"
+// #include "View/CameraView.cpp"
+
 #include "Model/Lente.h"
 #include "DAO/LenteDAO.h"
 
 using namespace std;
+
 
 int main(int argc, const char **argv)
 {
@@ -43,12 +49,23 @@ int main(int argc, const char **argv)
     // stmt->execute("CREATE TABLE test(id INT)");
     // delete stmt;
 
+    string nome; int id = 0;
+    cout << "Digite seu nome: ";
+    std::getline(std::cin,nome);
+
+    cout << "\nOlá, " + nome + "! A seguir estão as cameras disponíveis, entre com o id para selecionar a desejada\n";
+
+    id = Generic::readPosInt();
+
+
+
+
 
 
     //TESTING!!!!!
-    int id; string busca;
+    // int id; string busca;
     //CAMERA
-    CameraDAO camera_manager = CameraDAO(con);
+    // CameraDAO camera_manager = CameraDAO(con);
     // // Camera c1 = Camera("Nikon","D7000", 130,"Full-frame");
     // // camera_manager.insert(c1);
     // cout << "Digite o Id da camera: ";
@@ -59,11 +76,15 @@ int main(int argc, const char **argv)
     // Camera c3 = camera_manager.getById(id);
     // cout << c3.getAllInfo() << endl;
     // camera_manager.remove(id);
-    cout << "Digite a string a procurar: ";
-    std::getline(std::cin,busca);
-    list<Camera> lisCam = camera_manager.find(busca);
-    cout << lisCam.front().getAllInfo() << endl;
-    cout << lisCam.back().getAllInfo() << endl;
+    // cout << "Digite a string a procurar: ";
+    // std::getline(std::cin,busca);
+    // list<Camera> lisCam = camera_manager.find(busca);
+    // if(lisCam.size() > 0){
+    //   cout << lisCam.front().getAllInfo() << endl;
+    // }
+    // camera_manager.getPriceById(1);
+    // cout << camera_manager.getPriceById(lisCam.front().getId()).front().getAllInfo() << endl;
+    // cout << lisCam.back().getAllInfo() << endl;
 
     //LENTE
     // LenteDAO lente_man = LenteDAO(con);

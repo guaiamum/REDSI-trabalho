@@ -15,10 +15,39 @@ CameraDAO::CameraDAO(sql::Connection* con) : GenericDAO(con){}
 list<Camera> CameraDAO::find(string busca){
   sql::Statement *stmt;
   sql::ResultSet  *res;
-  string query = "SELECT * FROM CAMERA WHERE (CONCAT(`Marca`,`Modelo`,`Sensor`) LIKE '%" + busca + "%')";
+  string query = "SELECT * FROM $ WHERE (CONCAT(`Marca`,`Modelo`,`Sensor`) LIKE '%" + busca + "%')";
   Generic::findAndReplaceAll(query, "$", this->Table);
 
-  /* Preparing statement */
+  /* Preparing and executing statement */
+  stmt = this->con->createStatement();
+  res = stmt->executeQuery(query);
+
+  /* Parsing to Model structure */
+  list<Camera> cameras;
+  while(res->next()){
+    cameras.push_back(sqlToModel(res));
+  }
+
+  /* Free pointers */
+  delete stmt;
+  delete res;
+
+  return cameras;
+}
+
+/**
+    Finds all objects with properties that look like the given string.
+
+    @param string Busca.
+    @return list of objects.
+*/
+list<Camera> CameraDAO::listAll(){
+  sql::Statement *stmt;
+  sql::ResultSet  *res;
+  string query = "SELECT * FROM $ LIMIT 30";
+  Generic::findAndReplaceAll(query, "$", this->Table);
+
+  /* Preparing and executing statement */
   stmt = this->con->createStatement();
   res = stmt->executeQuery(query);
 
@@ -47,7 +76,7 @@ Camera CameraDAO::getById(int id){
   string query = "SELECT * FROM $ WHERE Id = " + std::to_string(id);
   Generic::findAndReplaceAll(query, "$", this->Table);
 
-  /* Preparing statement */
+  /* Preparing and executing statement */
   stmt = this->con->createStatement();
   res = stmt->executeQuery(query);
 
@@ -70,28 +99,30 @@ Camera CameraDAO::getById(int id){
     @param int Id.
     @return an object.
 */
-// Camera CameraDAO::getByIdWithPrice(int id){
-//   sql::Statement *stmt;
+// list<ProdutoPreco> CameraDAO::getPriceById(int id){
+//   sql::PreparedStatement *stmt;
 //   sql::ResultSet  *res;
-//
-//   string query = "SELECT $.*, PRODUTO_PRECO.Preco, PRODUTO_PRECO.Quantidade FROM $ INNER JOIN PRODUTO_PRECO ON $.Id = PRODUTO_PRECO.Fk_Produto AND PRODUTO_PRECO.Tipo = '$' WHERE $.Id = " + std::to_string(id);
+//   string query = "SELECT * FROM PRODUTO_PRECO WHERE `Tipo` = '$' AND PRODUTO_PRECO.Fk_Produto = ?";
 //   Generic::findAndReplaceAll(query, "$", this->Table);
 //
 //   /* Preparing statement */
-//   stmt = this->con->createStatement();
-//   res = stmt->executeQuery(query);
+//   stmt = this->con->prepareStatement(query);
+//   stmt->setInt(1,id);
+//
+//   /* Execute statement */
+//   // res = stmt->executeQuery(query);
 //
 //   /* Parsing to Model structure */
-//   Camera camera;
-//   if(res->next()){
-//     camera = sqlToModel(res);
-//   }
+//   list<ProdutoPreco> precos; precos.push_back(ProdutoPreco());
+//   // if(res->next()){
+//   //   precos.push_back(priceSqlToModel(res));
+//   // }
 //
 //   /* Free pointers */
 //   delete stmt;
 //   delete res;
 //
-//   return camera;
+//   return precos;
 // }
 
 /**
@@ -173,6 +204,21 @@ Camera CameraDAO::sqlToModel(sql::ResultSet *res){
     res->getString("Modelo"),
     res->getInt("Peso"),
     res->getString("Sensor"));
+}
+
+/**
+    Parses the ResultSet to the corresponding Model structure.
+
+    @param ResultSet res.
+    @return an object.
+*/
+ProdutoPreco CameraDAO::priceSqlToModel(sql::ResultSet *res){
+  return ProdutoPreco(
+    res->getInt("Fk_Produto"),
+    res->getString("Tipo_Produto"),
+    res->getInt("Quantidade"),
+    res->getDouble("Preco"),
+    res->getBoolean("Novo"));
 }
 
 /**

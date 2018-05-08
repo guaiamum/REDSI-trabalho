@@ -1,6 +1,6 @@
 #COMPILE ALL
-all: main.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o Generic.o GenericDAO.o CameraDAO.o LenteDAO.o
-	g++ -o main -I/usr/local/include -I/usr/local/include/cppconn main.o Generic.o GenericDAO.o Produto.o Camera.o CameraDAO.o Lente.o LenteDAO.o Flash.o Tripe.o ProdutoPreco.o -lmysqlcppconn
+all: main.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o Generic.o GenericDAO.o CameraDAO.o LenteDAO.o CameraView.o
+	g++ -o main -I/usr/local/include -I/usr/local/include/cppconn main.o Generic.o GenericDAO.o Produto.o Camera.o CameraDAO.o Lente.o LenteDAO.o Flash.o Tripe.o ProdutoPreco.o CameraView.o -lmysqlcppconn
 
 #CLEAN AND COMPILE ALL
 allc: clean all
@@ -39,6 +39,10 @@ CameraDAO.o: DAO/CameraDAO.cpp
 
 LenteDAO.o: DAO/LenteDAO.cpp
 	g++ -c DAO/LenteDAO.cpp
+
+#VIEW
+CameraView.o: View/CameraView.cpp
+	g++ -c View/CameraView.cpp
 
 #******************************
 #TESTING
