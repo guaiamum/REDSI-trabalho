@@ -3,6 +3,10 @@
 
 #include <iostream>
 #include <string>
+//
+#include "mysql_connection.h"
+#include <cppconn/resultset.h>
+#include "ProdutoPreco.h"
 
 using namespace std;
 
@@ -10,6 +14,7 @@ class Generic {
 public:
   inline static void findAndReplaceAll(std::string & data, std::string toSearch, std::string replaceStr);
   inline static int readPosInt();
+  inline static ProdutoPreco priceSqlToModel(sql::ResultSet *res);
 };
 
 /**
@@ -46,8 +51,24 @@ int Generic::readPosInt(){
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cout << "Número inválido. Tente novamente: ";
 	}
-
+  cin.ignore();
 	return x;
+}
+
+/**
+    Parses the ResultSet to the corresponding Model structure.
+
+    @param ResultSet res.
+    @return an object.
+*/
+ProdutoPreco Generic::priceSqlToModel(sql::ResultSet *res){
+  return ProdutoPreco(
+    res->getInt("Id"),
+    res->getInt("Fk_Produto"),
+    res->getString("Tipo_Produto"),
+    res->getInt("Quantidade"),
+    res->getDouble("Preco"),
+    res->getBoolean("Novo"));
 }
 
 #endif

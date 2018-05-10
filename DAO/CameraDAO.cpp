@@ -44,7 +44,7 @@ list<Camera> CameraDAO::find(string busca){
 list<Camera> CameraDAO::listAll(){
   sql::Statement *stmt;
   sql::ResultSet  *res;
-  string query = "SELECT * FROM $ LIMIT 30";
+  string query = "SELECT * FROM $";
   Generic::findAndReplaceAll(query, "$", this->Table);
 
   /* Preparing and executing statement */
@@ -99,31 +99,31 @@ Camera CameraDAO::getById(int id){
     @param int Id.
     @return an object.
 */
-// list<ProdutoPreco> CameraDAO::getPriceById(int id){
-//   sql::PreparedStatement *stmt;
-//   sql::ResultSet  *res;
-//   string query = "SELECT * FROM PRODUTO_PRECO WHERE `Tipo` = '$' AND PRODUTO_PRECO.Fk_Produto = ?";
-//   Generic::findAndReplaceAll(query, "$", this->Table);
-//
-//   /* Preparing statement */
-//   stmt = this->con->prepareStatement(query);
-//   stmt->setInt(1,id);
-//
-//   /* Execute statement */
-//   // res = stmt->executeQuery(query);
-//
-//   /* Parsing to Model structure */
-//   list<ProdutoPreco> precos; precos.push_back(ProdutoPreco());
-//   // if(res->next()){
-//   //   precos.push_back(priceSqlToModel(res));
-//   // }
-//
-//   /* Free pointers */
-//   delete stmt;
-//   delete res;
-//
-//   return precos;
-// }
+list<ProdutoPreco> CameraDAO::getPriceById(int id){
+  sql::PreparedStatement *stmt;
+  sql::ResultSet  *res;
+  string query = "SELECT * FROM PRODUTO_PRECO WHERE `Tipo_Produto` = '$' AND PRODUTO_PRECO.Fk_Produto = ?";
+  Generic::findAndReplaceAll(query, "$", this->Table);
+
+  /* Preparing statement */
+  stmt = this->con->prepareStatement(query);
+  stmt->setInt(1,id);
+
+  /* Execute statement */
+  res = stmt->executeQuery();
+
+  /* Parsing to Model structure */
+  list<ProdutoPreco> precos;
+  while(res->next()){
+    precos.push_back(Generic::priceSqlToModel(res));
+  }
+
+  /* Free pointers */
+  delete stmt;
+  delete res;
+
+  return precos;
+}
 
 /**
     Inserts the given object.
@@ -204,21 +204,6 @@ Camera CameraDAO::sqlToModel(sql::ResultSet *res){
     res->getString("Modelo"),
     res->getInt("Peso"),
     res->getString("Sensor"));
-}
-
-/**
-    Parses the ResultSet to the corresponding Model structure.
-
-    @param ResultSet res.
-    @return an object.
-*/
-ProdutoPreco CameraDAO::priceSqlToModel(sql::ResultSet *res){
-  return ProdutoPreco(
-    res->getInt("Fk_Produto"),
-    res->getString("Tipo_Produto"),
-    res->getInt("Quantidade"),
-    res->getDouble("Preco"),
-    res->getBoolean("Novo"));
 }
 
 /**

@@ -17,12 +17,14 @@
 #include "info.cpp"
 #include "Model/Generic.cpp"
 
-#include "Model/Camera.h"
+// #include "Model/Camera.h"
 #include "DAO/CameraDAO.h"
-// #include "View/CameraView.cpp"
+#include "View/CameraView.cpp"
 
 #include "Model/Lente.h"
 #include "DAO/LenteDAO.h"
+
+#include "View/ProdutoPrecoView.cpp"
 
 using namespace std;
 
@@ -49,13 +51,31 @@ int main(int argc, const char **argv)
     // stmt->execute("CREATE TABLE test(id INT)");
     // delete stmt;
 
-    string nome; int id = 0;
+    //INTRODUCAO
+    string user; int id = 0;
     cout << "Digite seu nome: ";
-    std::getline(std::cin,nome);
+    std::getline(std::cin,user);
 
-    cout << "\nOlá, " + nome + "! A seguir estão as cameras disponíveis, entre com o id para selecionar a desejada\n";
+    //LISTAR CAMERAS
+    cout << "\nOlá, " + user + "! A seguir estão as cameras disponíveis, pressiona enter para prosseguir\n";
+    cin.ignore();
+    CameraDAO cam_man = CameraDAO(con);
+    CameraView::printList(cam_man.listAll());
 
+    //SELECIONA CAMERA
+    cout << "\nAgora entre com o Id da camera desejada:\n";
     id = Generic::readPosInt();
+    CameraView::printOne(cam_man.getById(id));
+
+    //LISTA PRECOS
+    cout << "\n A seguir estão as unidades disponíveis, pressiona enter para prosseguir\n";
+    cin.ignore();
+    ProdutoPrecoView::printList(cam_man.getPriceById(id));
+
+    // out << "\nAgora entre com o Id da unidade desejada:\n";
+    // id = Generic::readPosInt();
+    // CameraView::printOne(cam_man.getById(id));
+
 
 
 

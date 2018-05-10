@@ -3,26 +3,53 @@
 
 #include <iostream>
 #include <iomanip>
-// #include "../DAO/CameraDAO.cpp"
+#include <list>
+#include "../Model/Camera.h"
 
 using namespace std;
 
 class CameraView {
 public:
-  static void printAll();
+  inline static void printList(list<Camera> cameras);
+  inline static void printOne(Camera camera);
 };
 
-void CameraView::printAll(){
-  // list<Camera> cameras = CameraRN.listAll();
-  // for(list<Camera>::iterator it;it != cameras.end();i++){
-  //   cout << *it->getAllInfo() << endl;
-  // }
+void CameraView::printList(list<Camera> cameras){
+  int espaco_inicial = 5, espaco_meio = 15;
 
-  cout << setw(5) << "Sl. No:" << setw(15) << "Month" << setw(15) << "Name" << endl << endl;
-  cout << setw(5) << 1 << setw(15) << "January" << setw(15) << "Abhilash" << endl;
-  cout << setw(5) << 2 << setw(15) << "Februaury" << setw(15) << "Anandan" << endl;
-  cout << setw(5) << 3 << setw(15) << "March" << setw(15) << "Abhilash" << endl;
-  cout << setw(5) << 4 << setw(15) << "April" << setw(15) << "Anandan" << endl;
+  //CABEÇALHO
+  if(cameras.size() > 1){
+  cout << setw(espaco_inicial) << "Id"
+    << setw(espaco_meio) << "Marca"
+    << setw(espaco_meio) << "Modelo"
+    << setw(espaco_meio) << "Sensor"
+    << setw(espaco_meio) << "Peso(g)"
+
+    << endl << endl;
+  }
+
+  //CORPO
+  for (auto c : cameras){
+    cout << setw(espaco_inicial) << c.getId()
+      << setw(espaco_meio) << c.getMarca()
+      << setw(espaco_meio) << c.getModelo()
+      << setw(espaco_meio) << c.getSensor()
+      << setw(espaco_meio) << c.getPeso()
+
+      << endl;
+  }
+  cout << endl;
+}
+
+void CameraView::printOne(Camera camera){
+  if(camera.getId() == 0){
+    cout << "Camera não encontrada!\n";
+    return;
+  }
+
+  list<Camera> uma_so;
+  uma_so.push_back(camera);
+  printList(uma_so);
 
 }
 

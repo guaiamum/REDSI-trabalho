@@ -1,11 +1,13 @@
 #include "ProdutoPreco.h"
 
 ProdutoPreco::ProdutoPreco(){
+  Id = 0;
   Quantidade = 0;
   Preco = 0.0; // €
   Novo = true;
 }
-ProdutoPreco::ProdutoPreco(int fk_Produto, string tipo_Produto, int quantidade, float preco, bool novo){
+ProdutoPreco::ProdutoPreco(int id, int fk_Produto, string tipo_Produto, int quantidade, float preco, bool novo){
+  Id = id;
   Fk_Produto = fk_Produto;
   Tipo_Produto = tipo_Produto;
   Quantidade = quantidade;
@@ -13,6 +15,7 @@ ProdutoPreco::ProdutoPreco(int fk_Produto, string tipo_Produto, int quantidade, 
   Novo = novo;
 }
 ProdutoPreco::ProdutoPreco(ProdutoPreco const &ProdPreco){
+  Id = ProdPreco.Id;
   Fk_Produto = ProdPreco.Fk_Produto;
   Tipo_Produto = ProdPreco.Tipo_Produto;
   Quantidade = ProdPreco.Quantidade;
@@ -21,6 +24,9 @@ ProdutoPreco::ProdutoPreco(ProdutoPreco const &ProdPreco){
 }
 
 //GETTERS
+int ProdutoPreco::getId(){
+  return Id;
+}
 int ProdutoPreco::getFk_Produto(){
   return Fk_Produto;
 }
@@ -36,8 +42,11 @@ float ProdutoPreco::getPreco(){
 bool ProdutoPreco::getNovo(){
   return Novo;
 }
+string ProdutoPreco::getNovoString(){
+  return (Novo) ? "Novo" : "Usado";;
+}
 string ProdutoPreco::getAllInfo(){
-  string novo = (Novo) ? " Novo" : " Usado";
+  string novo = getNovoString();
   return "(" + std::to_string(Fk_Produto) + "): " + Tipo_Produto + " qtd: " +std::to_string(Quantidade) + " " + std::to_string(Preco) + "€" + novo;
 }
 

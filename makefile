@@ -45,16 +45,16 @@ CameraView.o: View/CameraView.cpp
 	g++ -c View/CameraView.cpp
 
 #******************************
-#TESTING
-test: Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
-	clear
-	g++ -o test -I/usr/local/include -I/usr/local/include/cppconn test.cpp Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o CameraDAO.o -lmysqlcppconn
-	./test
-
-#TESTING DB CONNECT
-framework: Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o CameraDAO.o Generic.o
-	g++ -o framework -I/usr/local/include -I/usr/local/include/cppconn framework.cpp Generic.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o CameraDAO.o -lmysqlcppconn
-	./framework
+# # TESTING
+# test: Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o
+# 	clear
+# 	g++ -o test -I/usr/local/include -I/usr/local/include/cppconn test.cpp Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o CameraDAO.o -lmysqlcppconn
+# 	./test
+#
+# # TESTING DB CONNECT
+# framework: Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o CameraDAO.o Generic.o
+# 	g++ -o framework -I/usr/local/include -I/usr/local/include/cppconn framework.cpp Generic.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o CameraDAO.o -lmysqlcppconn
+# 	./framework
 
 #******************************
 # CLEANING CONSOLE AND DIRECTORY

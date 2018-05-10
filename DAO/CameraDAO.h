@@ -18,7 +18,7 @@ public:
   Camera getById(int id);
   list<Camera> find(string busca);
   list<Camera> listAll();
-  //???Y not working??? list<ProdutoPreco> getPriceById(int id);
+  list<ProdutoPreco> getPriceById(int id);
   // PARSING
   Camera sqlToModel(sql::ResultSet *res);
   void modelToSql(sql::PreparedStatement *stmt, Camera camera);
