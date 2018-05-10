@@ -43,7 +43,7 @@ void ProdutoPrecoView::printList(list<ProdutoPreco> precos, bool com_cabecalho){
 
 void ProdutoPrecoView::printOne(ProdutoPreco preco){
   if(preco.getId() == 0){
-    cout << "ProdutoPreco não encontrada!\n";
+    cout << "Preço não encontrada!\n";
     return;
   }
 

@@ -10,7 +10,7 @@ class Lente : public Produto{
   string Abertura;
 public:
   Lente();
-  Lente(string marca, string modelo, int peso, bool zoom, int min, int max, string abertura);
+  Lente(int id, string marca, string modelo, int peso, bool zoom, int min, int max, string abertura);
   Lente(Lente const &lente);
   //GETTERS
   bool getZoom();

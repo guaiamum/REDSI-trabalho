@@ -11,7 +11,7 @@ class LenteDAO : public GenericDAO{
 public:
   LenteDAO(sql::Connection *con);
   void insert(Lente lente);
-  void update(int id, Lente lente);
+  void update(Lente lente);
   // void removeById(int id);
   Lente getById(int id);
   // Lente getByIdWithPrice(int id);

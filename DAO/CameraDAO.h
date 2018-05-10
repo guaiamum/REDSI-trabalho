@@ -4,7 +4,7 @@
 /* OTHER */
 #include "GenericDAO.h"
 #include "../Model/Camera.h"
-#include "../Model/ProdutoPreco.h"
+#include "ProdutoPrecoDAO.h"
 
 class CameraDAO : public GenericDAO{
   static std::string Table;
@@ -12,7 +12,7 @@ public:
   CameraDAO(sql::Connection *con);
   //MODIFYING
   void insert(Camera camera);
-  void update(int id, Camera camera);
+  void update(Camera camera);
   void remove(int id);
   //READING
   Camera getById(int id);
@@ -22,7 +22,6 @@ public:
   // PARSING
   Camera sqlToModel(sql::ResultSet *res);
   void modelToSql(sql::PreparedStatement *stmt, Camera camera);
-  ProdutoPreco priceSqlToModel(sql::ResultSet *res);
 
 };
 

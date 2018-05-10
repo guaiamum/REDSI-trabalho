@@ -1,5 +1,5 @@
 #include "CameraDAO.h"
-// #include <iostream> //DEBUGING
+// #include <iostream> //DEBUG
 
 //TABLE NAME
 string CameraDAO::Table("CAMERA");
@@ -94,35 +94,20 @@ Camera CameraDAO::getById(int id){
 }
 
 /**
-    Gets the firt object with the given Id joining with any results from the Price table
+    Gets all objects from the Price table
 
     @param int Id.
     @return an object.
 */
 list<ProdutoPreco> CameraDAO::getPriceById(int id){
-  sql::PreparedStatement *stmt;
-  sql::ResultSet  *res;
-  string query = "SELECT * FROM PRODUTO_PRECO WHERE `Tipo_Produto` = '$' AND PRODUTO_PRECO.Fk_Produto = ?";
-  Generic::findAndReplaceAll(query, "$", this->Table);
-
-  /* Preparing statement */
-  stmt = this->con->prepareStatement(query);
-  stmt->setInt(1,id);
-
-  /* Execute statement */
-  res = stmt->executeQuery();
-
-  /* Parsing to Model structure */
+  ProdutoPrecoDAO *prod_man = new ProdutoPrecoDAO(this->con);
   list<ProdutoPreco> precos;
-  while(res->next()){
-    precos.push_back(Generic::priceSqlToModel(res));
-  }
 
-  /* Free pointers */
-  delete stmt;
-  delete res;
+  precos = prod_man->getPriceByFk(id,this->Table);
 
-  return precos;
+  delete prod_man;
+
+  return precos ;
 }
 
 /**
@@ -153,7 +138,7 @@ void CameraDAO::insert(Camera camera){
     @param int Id, Object with set properties.
     @return nothing.
 */
-void CameraDAO::update(int id, Camera camera){
+void CameraDAO::update(Camera camera){
   sql::PreparedStatement *stmt;
   string query = "UPDATE $ SET `Marca` = ?, `Modelo` = ?, `Peso` = ?, `Sensor` = ? WHERE Id = ?";
   Generic::findAndReplaceAll(query, "$", this->Table);
@@ -161,7 +146,7 @@ void CameraDAO::update(int id, Camera camera){
   /* Preparing statement */
   stmt = this->con->prepareStatement(query);
   modelToSql(stmt, camera);
-  stmt->setInt(5,id);
+  stmt->setInt(5,camera.getId());
   /* Execute statement */
   stmt->execute();
 

@@ -1,6 +1,7 @@
 #include "Lente.h"
 
 Lente::Lente(){
+  Id = 0;
   Marca = "Desconhecida";
   Modelo = "Desconhecido";
   Peso = 0;
@@ -10,10 +11,7 @@ Lente::Lente(){
   Abertura = "5.6";
 }
 
-Lente::Lente(string marca, string modelo, int peso, bool zoom, int min, int max, string abertura){
-  Marca = marca;
-  Modelo = modelo;
-  Peso = peso;
+Lente::Lente(int id, string marca, string modelo, int peso, bool zoom, int min, int max, string abertura): Produto(id, marca, modelo, peso){
   Zoom = zoom;
   Zoom_min = min;
   Zoom_max = max;
@@ -25,6 +23,7 @@ Lente::Lente(string marca, string modelo, int peso, bool zoom, int min, int max,
 }
 
 Lente::Lente(Lente const &lente){
+  Id = lente.Id;
   Marca = lente.Marca;
   Modelo = lente.Modelo;
   Peso = lente.Peso;

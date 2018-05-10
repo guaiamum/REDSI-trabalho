@@ -67,7 +67,7 @@ void LenteDAO::insert(Lente lente){
     @param int Id, Object with set properties.
     @return nothing.
 */
-void LenteDAO::update(int id, Lente lente){
+void LenteDAO::update(Lente lente){
   sql::PreparedStatement *stmt;
   string query = "UPDATE $ SET `Marca` = ?, `Modelo` = ?, `Peso` = ?, `Zoom` = ?, `Zoom_min` = ?, `Zoom_max` = ?, `Abertura` = ? WHERE Id = ?";
   Generic::findAndReplaceAll(query, "$", this->Table);
@@ -75,7 +75,7 @@ void LenteDAO::update(int id, Lente lente){
   /* Preparing statement */
   stmt = this->con->prepareStatement(query);
   modelToSql(stmt,lente);
-  stmt->setInt(8,id);
+  stmt->setInt(8,lente.getId());
 
   /* Execute statement */
   stmt->execute();
