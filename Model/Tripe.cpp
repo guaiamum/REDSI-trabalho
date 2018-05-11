@@ -1,18 +1,17 @@
 #include "Tripe.h"
 
 Tripe::Tripe(){
+  Id = 0;
   Marca = "Desconhecida";
   Modelo = "Desconhecido";
   Peso = 0;
   Carga_max = 1000; // 1Kg
 }
-Tripe::Tripe(string marca, string modelo, int peso, int carga_max){
-  Marca = marca;
-  Modelo = modelo;
-  Peso = peso;
+Tripe::Tripe(string marca, string modelo, int peso, int carga_max) : Produto(id, marca, modelo, peso){
   Carga_max = carga_max;
 }
 Tripe::Tripe(Tripe const &tripe){
+  Id = tripe.Id;
   Marca = tripe.Marca;
   Modelo = tripe.Modelo;
   Peso = tripe.Peso;

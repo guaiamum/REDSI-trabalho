@@ -6,7 +6,7 @@
 class Flash : public Produto {
 public:
   Flash();
-  Flash(string marca, string modelo, int peso);
+  Flash(int id, string marca, string modelo, int peso);
   Flash(Flash const &flash);
   //GETTERS
   string getAllInfo();
