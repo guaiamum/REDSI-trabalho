@@ -15,16 +15,18 @@
 #include <cppconn/prepared_statement.h>
 
 #include "info.cpp"
-// #include "Model/Generic.cpp"
+#include "Model/Generic.cpp"
 
-// #include "Model/Camera.h"
 #include "DAO/CameraDAO.h"
 #include "View/CameraView.cpp"
 
 #include "DAO/LenteDAO.h"
+// #include "DAO/LenteView.cpp"
 
 // #include "DAO/ProdutoPrecoDAO.h"
 #include "View/ProdutoPrecoView.cpp"
+
+#include "Model/CarrinhoCompras.h"
 
 using namespace std;
 
@@ -42,6 +44,7 @@ int main(int argc, const char **argv)
 
     /* Create a connection */
     driver = get_driver_instance();
+    cout << "Conectando a base...\n";
     con = driver->connect(url, user, pass);
     /* Connect to the MySQL test database */
     con->setSchema(database);
@@ -53,8 +56,9 @@ int main(int argc, const char **argv)
 
 
     //INTRODUCAO
-    string user; int id = 0;
-    cout << "Digite seu nome: ";
+    string user; int id = 0; 
+    CarrinhoCompras car = CarrinhoCompras();
+    cout << "\nDigite seu nome: ";
     std::getline(std::cin,user);
 
     //LISTAR CAMERAS
@@ -66,17 +70,18 @@ int main(int argc, const char **argv)
     //SELECIONA CAMERA
     cout << "\nAgora entre com o Id da camera desejada:\n";
     id = Generic::readPosInt();
-    CameraView::printOne(cam_man.getById(id));
+    car.camera = cam_man.getById(id);
+    CameraView::printOne(car.camera);
 
-    //LISTA PRECOS
+    //LISTA UNIDADES DE CAMERAS
     cout << "\n A seguir estão as unidades disponíveis, pressiona enter para prosseguir\n";
     cin.ignore();
     ProdutoPrecoView::printList(cam_man.getPriceById(id));
 
-    //SELECIONA PRECO
-    // cout << "\nAgora entre com o Id da unidade desejada:\n";
-    // id = Generic::readPosInt();
-    // CameraView::printOne(cam_man.getById(id));
+    //SELECIONA UNIDADE DE CAMERA
+    cout << "\nAgora entre com o Id da unidade desejada:\n";
+    id = Generic::readPosInt();
+    CameraView::printOne(cam_man.getById(id));
 
 
 

@@ -7,7 +7,7 @@ Tripe::Tripe(){
   Peso = 0;
   Carga_max = 1000; // 1Kg
 }
-Tripe::Tripe(string marca, string modelo, int peso, int carga_max) : Produto(id, marca, modelo, peso){
+Tripe::Tripe(int id, string marca, string modelo, int peso, int carga_max) : Produto(id, marca, modelo, peso){
   Carga_max = carga_max;
 }
 Tripe::Tripe(Tripe const &tripe){
