@@ -6,6 +6,39 @@ string ProdutoPrecoDAO::Table("PRODUTO_PRECO");
 
 ProdutoPrecoDAO::ProdutoPrecoDAO(sql::Connection* con) : GenericDAO(con){}
 
+
+/**
+    Gets the firt object with the given Id.
+
+    @param int Id.
+    @return an objec.
+*/
+ProdutoPreco ProdutoPrecoDAO::getById(int id){
+  sql::PreparedStatement *stmt;
+  sql::ResultSet  *res;
+  string query = "SELECT * FROM $ WHERE Id = ?";
+  Generic::findAndReplaceAll(query, "$", this->Table);
+
+  /* Preparing statement */
+  stmt = this->con->prepareStatement(query);
+  stmt->setInt(1,id);
+
+  /* Executing query  */
+  res = stmt->executeQuery();
+
+  /* Parsing to Model structure */
+  ProdutoPreco preco;
+  if(res->next()){
+    preco = sqlToModel(res);
+  }
+
+  /* Free pointers */
+  delete stmt;
+  delete res;
+
+  return preco;
+}
+
 /**
     Gets all objects with the given Fk
 

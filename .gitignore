@@ -1,5 +1,9 @@
 #Ignore compiled objects
 *.o
+main
 
 #Ignore my DB info
 info.cpp
+
+#Ignore vscode files
+.vscode

@@ -1,7 +1,7 @@
 #COMPILE ALL
-all: main.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o Generic.o GenericDAO.o CameraDAO.o LenteDAO.o ProdutoPrecoDAO.o CameraView.o Carrinho.o
+all: main.o Produto.o Camera.o Lente.o Flash.o Tripe.o ProdutoPreco.o Generic.o GenericDAO.o CameraDAO.o LenteDAO.o ProdutoPrecoDAO.o CameraView.o CarrinhoCompras.o
 	echo "Started compiling..."
-	g++ -o main -I/usr/local/include -I/usr/local/include/cppconn main.o Generic.o GenericDAO.o Produto.o Camera.o CameraDAO.o Lente.o LenteDAO.o Flash.o Tripe.o ProdutoPreco.o CameraView.o Carrinho.o ProdutoPrecoDAO.o -lmysqlcppconn
+	g++ -o main -I/usr/local/include -I/usr/local/include/cppconn main.o Generic.o GenericDAO.o Produto.o Camera.o CameraDAO.o Lente.o LenteDAO.o Flash.o Tripe.o ProdutoPreco.o CameraView.o CarrinhoCompras.o ProdutoPrecoDAO.o -lmysqlcppconn
 
 #CLEAN AND COMPILE ALL
 allc: clean all
@@ -31,7 +31,7 @@ Tripe.o: Model/Tripe.cpp
 ProdutoPreco.o: Model/ProdutoPreco.cpp
 	g++ -c Model/ProdutoPreco.cpp
 
-Carrinho.o: Model/CarrinhoCompras.cpp
+CarrinhoCompras.o: Model/CarrinhoCompras.cpp
 	g++ -c Model/CarrinhoCompras.cpp
 
 #DAO

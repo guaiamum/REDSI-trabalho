@@ -14,7 +14,7 @@ public:
   void update(ProdutoPreco produtoPreco);
   void remove(int id);
   //READING
-  // ProdutoPreco getById(int id);
+  ProdutoPreco getById(int id);
   // list<ProdutoPreco> find(string busca);
   // list<ProdutoPreco> listAll();
   list<ProdutoPreco> getPriceByFk(int id, string Tipo);

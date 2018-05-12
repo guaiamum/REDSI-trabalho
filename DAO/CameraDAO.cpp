@@ -71,14 +71,17 @@ list<Camera> CameraDAO::listAll(){
     @return an objec.
 */
 Camera CameraDAO::getById(int id){
-  sql::Statement *stmt;
+  sql::PreparedStatement *stmt;
   sql::ResultSet  *res;
-  string query = "SELECT * FROM $ WHERE Id = " + std::to_string(id);
+  string query = "SELECT * FROM $ WHERE Id = ?";
   Generic::findAndReplaceAll(query, "$", this->Table);
 
-  /* Preparing and executing statement */
-  stmt = this->con->createStatement();
-  res = stmt->executeQuery(query);
+    /* Preparing statement */
+  stmt = this->con->prepareStatement(query);
+  stmt->setInt(1,id);
+
+  /* Executing query*/
+  res = stmt->executeQuery();
 
   /* Parsing to Model structure */
   Camera camera;

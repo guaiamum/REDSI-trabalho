@@ -23,7 +23,7 @@
 #include "DAO/LenteDAO.h"
 // #include "DAO/LenteView.cpp"
 
-// #include "DAO/ProdutoPrecoDAO.h"
+#include "DAO/ProdutoPrecoDAO.h"
 #include "View/ProdutoPrecoView.cpp"
 
 #include "Model/CarrinhoCompras.h"
@@ -49,40 +49,44 @@ int main(int argc, const char **argv)
     /* Connect to the MySQL test database */
     con->setSchema(database);
     /* Create them tables */
-    // stmt = con->createStatement();
-    // stmt->execute("DROP TABLE IF EXISTS test");
-    // stmt->execute("CREATE TABLE test(id INT)");
-    // delete stmt;
+    // stmt = con->createStatement();stmt->execute("DROP TABLE IF EXISTS test");stmt->execute("CREATE TABLE test(id INT)");delete stmt;
 
-
-    //INTRODUCAO
+    // DECLARANDO VARIAVEIS
     string user; int id = 0; 
     CarrinhoCompras car = CarrinhoCompras();
+    CameraDAO camera_manager = CameraDAO(con);
+    ProdutoPrecoDAO precos_manager = ProdutoPrecoDAO(con);
+
+    //INTRODUCAO
     cout << "\nDigite seu nome: ";
     std::getline(std::cin,user);
 
     //LISTAR CAMERAS
     cout << "\nOlá, " + user + "! A seguir estão as cameras disponíveis, pressiona enter para prosseguir\n";
     cin.ignore();
-    CameraDAO cam_man = CameraDAO(con);
-    CameraView::printList(cam_man.listAll());
+    CameraView::printList(camera_manager.listAll());
 
     //SELECIONA CAMERA
     cout << "\nAgora entre com o Id da camera desejada:\n";
     id = Generic::readPosInt();
-    car.camera = cam_man.getById(id);
+    car.camera = camera_manager.getById(id);
+    cout << "A camera seguinte foi adicionada ao carrinho! ";
     CameraView::printOne(car.camera);
 
     //LISTA UNIDADES DE CAMERAS
     cout << "\n A seguir estão as unidades disponíveis, pressiona enter para prosseguir\n";
     cin.ignore();
-    ProdutoPrecoView::printList(cam_man.getPriceById(id));
+    ProdutoPrecoView::printList(camera_manager.getPriceById(id));
 
     //SELECIONA UNIDADE DE CAMERA
     cout << "\nAgora entre com o Id da unidade desejada:\n";
     id = Generic::readPosInt();
-    CameraView::printOne(cam_man.getById(id));
+    car.precos.push_back(precos_manager.getById(id));
+    cout << "Unidade adicionada ao carrinho!";
+    // ProdutoPrecoView::printOne(car.precos);
 
+    //LISTA LENTES MARCA
+    
 
 
     /* FREE POINTERS */
