@@ -8,6 +8,8 @@
 // OUTRAS VIEWS
 #include "CameraView.cpp"
 #include "LenteView.cpp"
+#include "FlashView.cpp"
+#include "TripeView.cpp"
 #include "ProdutoPrecoView.cpp"
 
 using namespace std;
@@ -17,19 +19,33 @@ public:
   inline static void printProducts(CarrinhoCompras carrinho, bool imprime_cabecalho = true);
 };
 
+/**
+    Prints all items in the shopping cart.
+
+    @param CarrinhoCompras carrinho, bool imprime_cabecalho.
+    @return nothing .
+*/
 void CarrinhoComprasView::printProducts(CarrinhoCompras carrinho, bool imprime_cabecalho){
   int espaco_inicial = 5, espaco_meio = 15;
-
-  CameraView::printOne(carrinho.camera, false, false);
   list<ProdutoPreco>::iterator it = carrinho.precos.begin();
+
+  cout << "A seguir podes ver o seu carrinho com os produtos selecionados!\n";
+
+  //CAMERA
+  CameraView::printOne(carrinho.camera, false, false);
   ProdutoPrecoView::printOne(*it, false, false);
+  //LENTE
   LenteView::printOne(carrinho.lente, false, false);
+  ProdutoPrecoView::printOne(*++it, false, false);
+  //FLASH
+  FlashView::printOne(carrinho.flash, false, false);
+  ProdutoPrecoView::printOne(*++it, false, false);
+  //TRIPE
+  TripeView::printOne(carrinho.tripe, false, false);
+  ProdutoPrecoView::printOne(*++it, false, false);
   
   cout << endl;
-}
-
-#endif
-/*
+  /*
   CarrinhoCompras();
   Camera camera;
   Lente lente;
@@ -41,3 +57,6 @@ void CarrinhoComprasView::printProducts(CarrinhoCompras carrinho, bool imprime_c
   bool validateTripe(Tripe tripe);
   float getValorTotal();
 */
+}
+
+#endif

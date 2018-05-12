@@ -16,6 +16,7 @@ public:
     Flash flash;
     Tripe tripe;
     list<ProdutoPreco> precos;
+    bool validatePreco(string tipo_preco,string tipo_produto);
     bool validateLente(Lente lente);
     bool validateFlash(Flash flash);
     bool validateTripe(Tripe tripe);

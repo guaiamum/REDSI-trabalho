@@ -2,6 +2,8 @@
 
 ProdutoPreco::ProdutoPreco(){
   Id = 0;
+  Fk_Produto = 0;
+  Tipo_Produto = "";
   Quantidade = 0;
   Preco = 0.0; // €
   Novo = true;

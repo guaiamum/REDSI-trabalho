@@ -1,17 +1,17 @@
-#include "LenteDAO.h"
+#include "FlashDAO.h"
 // #include <iostream> //DEBUGING
 
 /**
     Sets the current table name.
 */
-string LenteDAO::Table("LENTE");
+string FlashDAO::Table("FLASH");
 
 /**
     Calls base class constructor to set the database connection to this class.
 
     @param sql Connection.
 */
-LenteDAO::LenteDAO(sql::Connection* con) : GenericDAO(con){}
+FlashDAO::FlashDAO(sql::Connection* con) : GenericDAO(con){}
 
 /**
     Gets the firt object with the given Id.
@@ -19,7 +19,7 @@ LenteDAO::LenteDAO(sql::Connection* con) : GenericDAO(con){}
     @param int Id.
     @return an object .
 */
-Lente LenteDAO::getById(int id){
+Flash FlashDAO::getById(int id){
   sql::PreparedStatement *stmt;
   sql::ResultSet  *res;
   string query = "SELECT * FROM $ WHERE Id = ?";
@@ -33,16 +33,16 @@ Lente LenteDAO::getById(int id){
   res = stmt->executeQuery();
 
   /* Parsing to Model structure */
-  Lente lente;
+  Flash flash;
   if(res->next()){
-    lente = sqlToModel(res);
+    flash = sqlToModel(res);
   } 
 
   /* Free pointers */
   delete stmt;
   delete res;
 
-  return lente;
+  return flash;
 }
 
 
@@ -52,12 +52,14 @@ Lente LenteDAO::getById(int id){
     @param int Id.
     @return an object.
 */
-list<ProdutoPreco> LenteDAO::getPriceById(int id){
+list<ProdutoPreco> FlashDAO::getPriceById(int id){
   ProdutoPrecoDAO *prod_man = new ProdutoPrecoDAO(this->con);
   list<ProdutoPreco> precos;
 
+  /* Fetch results */
   precos = prod_man->getPriceByFk(id,this->Table);
 
+  /* Free pointers */
   delete prod_man;
 
   return precos ;
@@ -69,7 +71,7 @@ list<ProdutoPreco> LenteDAO::getPriceById(int id){
     @param int Id.
     @return an object .
 */
-list<Lente> LenteDAO::getByMarca(string marca){
+list<Flash> FlashDAO::getByMarca(string marca){
   sql::Statement *stmt;
   sql::ResultSet  *res;
   string query = "SELECT * FROM $ WHERE `Marca` LIKE '%"+marca+"%'";
@@ -82,16 +84,16 @@ list<Lente> LenteDAO::getByMarca(string marca){
   res = stmt->executeQuery(query);
 
   /* Parsing to Model structure */
-  list<Lente> lentes;
+  list<Flash> flashs;
   while(res->next()){
-    lentes.push_back(sqlToModel(res));
+    flashs.push_back(sqlToModel(res));
   }
 
   /* Free pointers */
   delete stmt;
   delete res;
 
-  return lentes;
+  return flashs;
 }
 
 /**
@@ -100,14 +102,14 @@ list<Lente> LenteDAO::getByMarca(string marca){
     @param Object with set properties.
     @return nothing.
 */
-void LenteDAO::insert(Lente lente){
+void FlashDAO::insert(Flash flash){
   sql::PreparedStatement *stmt;
-  string query = "INSERT INTO $(`Marca`, `Modelo`, `Peso`, `Zoom`, `Zoom_min`, `Zoom_max`, `Abertura`) VALUES (?,?,?,?,?,?,?)";
+  string query = "INSERT INTO $(`Marca`, `Modelo`, `Peso`) VALUES (?,?,?)";
   Generic::findAndReplaceAll(query, "$", this->Table);
 
   /* Preparing statement */
   stmt = this->con->prepareStatement(query);
-  modelToSql(stmt,lente);
+  modelToSql(stmt,flash);
 
   /* Execute statement */
   stmt->execute();
@@ -122,15 +124,15 @@ void LenteDAO::insert(Lente lente){
     @param int Id, Object with set properties.
     @return nothing.
 */
-void LenteDAO::update(Lente lente){
+void FlashDAO::update(Flash flash){
   sql::PreparedStatement *stmt;
-  string query = "UPDATE $ SET `Marca` = ?, `Modelo` = ?, `Peso` = ?, `Zoom` = ?, `Zoom_min` = ?, `Zoom_max` = ?, `Abertura` = ? WHERE Id = ?";
+  string query = "UPDATE $ SET `Marca` = ?, `Modelo` = ?, `Peso` = ? WHERE Id = ?";
   Generic::findAndReplaceAll(query, "$", this->Table);
 
   /* Preparing statement */
   stmt = this->con->prepareStatement(query);
-  modelToSql(stmt,lente);
-  stmt->setInt(8,lente.getId());
+  modelToSql(stmt,flash);
+  stmt->setInt(4,flash.getId());
 
   /* Execute statement */
   stmt->execute();
@@ -145,16 +147,12 @@ void LenteDAO::update(Lente lente){
     @param ResultSet res.
     @return an object .
 */
-Lente LenteDAO::sqlToModel(sql::ResultSet *res){
-  return Lente(
+Flash FlashDAO::sqlToModel(sql::ResultSet *res){
+  return Flash(
     res->getInt("Id"),
     res->getString("Marca"),
     res->getString("Modelo"),
-    res->getInt("Peso"),
-    res->getInt("Zoom"),
-    res->getInt("Zoom_min"),
-    res->getInt("Zoom_max"),
-    res->getString("Abertura")
+    res->getInt("Peso")
   );
 }
 
@@ -164,17 +162,8 @@ Lente LenteDAO::sqlToModel(sql::ResultSet *res){
     @param ResultSet res.
     @return an object .
 */
-void LenteDAO::modelToSql(sql::PreparedStatement *stmt, Lente lente){
-  stmt->setString(1,lente.getMarca());
-  stmt->setString(2,lente.getModelo());
-  stmt->setInt(3,lente.getPeso());
-  stmt->setBoolean(4,lente.getZoom());
-  stmt->setInt(5,lente.getZoom_min());
-  if(lente.getZoom()){
-    stmt->setInt(6,lente.getZoom_max());
-  } else {
-    stmt->setNull(6,0);
-  }
-  stmt->setString(7,lente.getAbertura());
-
+void FlashDAO::modelToSql(sql::PreparedStatement *stmt, Flash flash){
+  stmt->setString(1,flash.getMarca());
+  stmt->setString(2,flash.getModelo());
+  stmt->setInt(3,flash.getPeso());
 }

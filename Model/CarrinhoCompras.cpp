@@ -7,6 +7,10 @@ CarrinhoCompras::CarrinhoCompras(){
     tripe = Tripe();
 }
 
+bool CarrinhoCompras::validatePreco(string tipo_preco,string tipo_produto){
+    return (tipo_preco == tipo_produto);
+}
+
 bool CarrinhoCompras::validateLente(Lente lente){
     return (lente.getMarca() == camera.getMarca());
 }

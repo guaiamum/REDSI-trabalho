@@ -23,6 +23,12 @@
 #include "DAO/LenteDAO.h"
 #include "View/LenteView.cpp"
 
+#include "DAO/FlashDAO.h"
+#include "View/FlashView.cpp"
+
+#include "DAO/TripeDAO.h"
+#include "View/TripeView.cpp"
+
 #include "DAO/ProdutoPrecoDAO.h"
 #include "View/ProdutoPrecoView.cpp"
 
@@ -60,19 +66,30 @@ int main(int argc, const char **argv)
     CameraDAO camera_manager = CameraDAO(con);
     ProdutoPrecoDAO precos_manager = ProdutoPrecoDAO(con);
     LenteDAO lente_manager = LenteDAO(con);
+    FlashDAO flash_manager = FlashDAO(con);
+    TripeDAO tripe_manager = TripeDAO(con);
 
     //INTRODUCAO
     cout << "\nDigite seu nome: ";
     std::getline(std::cin,user);
+
+    /***************************************************************************/
+    /******************             CAMERA              ************************/
+
 
     //LISTAR CAMERAS
     cout << "\nOlá, " + user + "! A seguir estão as cameras disponíveis, pressiona enter para prosseguir\n";
     cin.ignore();
     CameraView::printList(camera_manager.listAll());
     //SELECIONA CAMERA
-    cout << "\nAgora entre com o Id da camera desejada:\n";
-    id = Generic::readPosInt();
-    car.camera = camera_manager.getById(id);
+    Camera *camera = new Camera();
+    while(camera->getId() == 0){
+      cout << "\nAgora entre com o Id da camera desejada:\n";
+      id = Generic::readPosInt();
+      camera = new Camera(camera_manager.getById(id));
+    }
+    car.camera = *camera;
+    delete camera;
     cout << "A camera seguinte foi adicionada ao carrinho! ";
     CameraView::printOne(car.camera);
 
@@ -81,13 +98,21 @@ int main(int argc, const char **argv)
     cin.ignore();
     ProdutoPrecoView::printList(camera_manager.getPriceById(id));
     //SELECIONA UNIDADE DE CAMERA
-    cout << "\nAgora entre com o Id da unidade desejada:\n";
-    id = Generic::readPosInt();
-    car.precos.push_back(precos_manager.getById(id));
+    ProdutoPreco *preco = new ProdutoPreco();
+    while(!car.validatePreco(preco->getTipo_Produto(),"CAMERA")){
+      cout << "\nAgora entre com o Id da unidade desejada:\n";
+      id = Generic::readPosInt();
+      preco = new ProdutoPreco(precos_manager.getById(id));
+    }
+    car.precos.push_back(*preco);
     cout << "Unidade adicionada ao carrinho!" << endl;
 
+    /***************************************************************************/
+    /******************              LENTE              ************************/
+    
+    
     //LISTA LENTES MARCA
-    string marca = car.camera.getMarca();
+    static string marca = car.camera.getMarca();
     cout << "\n A seguir estão as lentes disponíveis, pressiona enter para prosseguir\n";
     cin.ignore();
     LenteView::printList(lente_manager.getByMarca(marca));
@@ -108,8 +133,36 @@ int main(int argc, const char **argv)
     car.precos.push_back(precos_manager.getById(id));
     cout << "Unidade adicionada ao carrinho!" << endl;
 
-    CarrinhoComprasView::printProducts(car);
+    /***************************************************************************/
+    /******************              FLASH              ************************/
 
+
+    //LISTA FLASH MARCA
+    cout << "\n A seguir estão os flashes disponíveis, pressiona enter para prosseguir\n";
+    cin.ignore();
+    FlashView::printList(flash_manager.getByMarca(marca));
+    //SELECIONA FLASH
+    cout << "\nAgora entre com o Id do flash desejado: ";
+    id = Generic::readPosInt();
+    car.flash = flash_manager.getById(id);
+    cout << "O flash seguinte foi adicionado ao carrinho! ";
+    FlashView::printOne(car.flash);
+
+    //LISTA UNIDADES DE FLASH
+    cout << "\n A seguir estão as unidades disponíveis, pressiona enter para prosseguir\n";
+    cin.ignore();
+    ProdutoPrecoView::printList(flash_manager.getPriceById(id));
+    //SELECIONA UNIDADE DE FLASH
+    cout << "\nAgora entre com o Id da unidade desejada: ";
+    id = Generic::readPosInt();
+    car.precos.push_back(precos_manager.getById(id));
+    cout << "Unidade adicionada ao carrinho!" << endl;
+
+    /***************************************************************************/
+    /******************            CARRINHO             ************************/
+
+
+    CarrinhoComprasView::printProducts(car);
 
     /* FREE POINTERS */
     delete con;

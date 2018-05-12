@@ -1,17 +1,17 @@
-#include "LenteDAO.h"
+#include "TripeDAO.h"
 // #include <iostream> //DEBUGING
 
 /**
     Sets the current table name.
 */
-string LenteDAO::Table("LENTE");
+string TripeDAO::Table("TRIPE");
 
 /**
     Calls base class constructor to set the database connection to this class.
 
     @param sql Connection.
 */
-LenteDAO::LenteDAO(sql::Connection* con) : GenericDAO(con){}
+TripeDAO::TripeDAO(sql::Connection* con) : GenericDAO(con){}
 
 /**
     Gets the firt object with the given Id.
@@ -19,7 +19,7 @@ LenteDAO::LenteDAO(sql::Connection* con) : GenericDAO(con){}
     @param int Id.
     @return an object .
 */
-Lente LenteDAO::getById(int id){
+Tripe TripeDAO::getById(int id){
   sql::PreparedStatement *stmt;
   sql::ResultSet  *res;
   string query = "SELECT * FROM $ WHERE Id = ?";
@@ -33,16 +33,16 @@ Lente LenteDAO::getById(int id){
   res = stmt->executeQuery();
 
   /* Parsing to Model structure */
-  Lente lente;
+  Tripe tripe;
   if(res->next()){
-    lente = sqlToModel(res);
+    tripe = sqlToModel(res);
   } 
 
   /* Free pointers */
   delete stmt;
   delete res;
 
-  return lente;
+  return tripe;
 }
 
 
@@ -52,12 +52,14 @@ Lente LenteDAO::getById(int id){
     @param int Id.
     @return an object.
 */
-list<ProdutoPreco> LenteDAO::getPriceById(int id){
+list<ProdutoPreco> TripeDAO::getPriceById(int id){
   ProdutoPrecoDAO *prod_man = new ProdutoPrecoDAO(this->con);
   list<ProdutoPreco> precos;
 
+  /* Fetch results */
   precos = prod_man->getPriceByFk(id,this->Table);
 
+  /* Free pointers */
   delete prod_man;
 
   return precos ;
@@ -69,29 +71,30 @@ list<ProdutoPreco> LenteDAO::getPriceById(int id){
     @param int Id.
     @return an object .
 */
-list<Lente> LenteDAO::getByMarca(string marca){
-  sql::Statement *stmt;
+list<Tripe> TripeDAO::getByCarga_max(int carga){
+  sql::PreparedStatement *stmt;
   sql::ResultSet  *res;
-  string query = "SELECT * FROM $ WHERE `Marca` LIKE '%"+marca+"%'";
+  string query = "SELECT * FROM $ WHERE `Carga_max` >= ?";
   Generic::findAndReplaceAll(query, "$", this->Table);
 
   /* Preparing statement */
-  stmt = this->con->createStatement();
+  stmt = this->con->prepareStatement(query);
+  stmt->setInt(1,carga);
 
   /* Execute statement */
-  res = stmt->executeQuery(query);
+  res = stmt->executeQuery();
 
   /* Parsing to Model structure */
-  list<Lente> lentes;
+  list<Tripe> tripes;
   while(res->next()){
-    lentes.push_back(sqlToModel(res));
+    tripes.push_back(sqlToModel(res));
   }
 
   /* Free pointers */
   delete stmt;
   delete res;
 
-  return lentes;
+  return tripes;
 }
 
 /**
@@ -100,14 +103,14 @@ list<Lente> LenteDAO::getByMarca(string marca){
     @param Object with set properties.
     @return nothing.
 */
-void LenteDAO::insert(Lente lente){
+void TripeDAO::insert(Tripe tripe){
   sql::PreparedStatement *stmt;
-  string query = "INSERT INTO $(`Marca`, `Modelo`, `Peso`, `Zoom`, `Zoom_min`, `Zoom_max`, `Abertura`) VALUES (?,?,?,?,?,?,?)";
+  string query = "INSERT INTO $(`Marca`, `Modelo`, `Peso`, `Carga_max`) VALUES (?,?,?,?)";
   Generic::findAndReplaceAll(query, "$", this->Table);
 
   /* Preparing statement */
   stmt = this->con->prepareStatement(query);
-  modelToSql(stmt,lente);
+  modelToSql(stmt,tripe);
 
   /* Execute statement */
   stmt->execute();
@@ -122,15 +125,15 @@ void LenteDAO::insert(Lente lente){
     @param int Id, Object with set properties.
     @return nothing.
 */
-void LenteDAO::update(Lente lente){
+void TripeDAO::update(Tripe tripe){
   sql::PreparedStatement *stmt;
-  string query = "UPDATE $ SET `Marca` = ?, `Modelo` = ?, `Peso` = ?, `Zoom` = ?, `Zoom_min` = ?, `Zoom_max` = ?, `Abertura` = ? WHERE Id = ?";
+  string query = "UPDATE $ SET `Marca` = ?, `Modelo` = ?, `Peso` = ?, `Carga_max` = ? WHERE Id = ?";
   Generic::findAndReplaceAll(query, "$", this->Table);
 
   /* Preparing statement */
   stmt = this->con->prepareStatement(query);
-  modelToSql(stmt,lente);
-  stmt->setInt(8,lente.getId());
+  modelToSql(stmt,tripe);
+  stmt->setInt(5,tripe.getId());
 
   /* Execute statement */
   stmt->execute();
@@ -145,16 +148,13 @@ void LenteDAO::update(Lente lente){
     @param ResultSet res.
     @return an object .
 */
-Lente LenteDAO::sqlToModel(sql::ResultSet *res){
-  return Lente(
+Tripe TripeDAO::sqlToModel(sql::ResultSet *res){
+  return Tripe(
     res->getInt("Id"),
     res->getString("Marca"),
     res->getString("Modelo"),
     res->getInt("Peso"),
-    res->getInt("Zoom"),
-    res->getInt("Zoom_min"),
-    res->getInt("Zoom_max"),
-    res->getString("Abertura")
+    res->getInt("Carga_max")
   );
 }
 
@@ -164,17 +164,9 @@ Lente LenteDAO::sqlToModel(sql::ResultSet *res){
     @param ResultSet res.
     @return an object .
 */
-void LenteDAO::modelToSql(sql::PreparedStatement *stmt, Lente lente){
-  stmt->setString(1,lente.getMarca());
-  stmt->setString(2,lente.getModelo());
-  stmt->setInt(3,lente.getPeso());
-  stmt->setBoolean(4,lente.getZoom());
-  stmt->setInt(5,lente.getZoom_min());
-  if(lente.getZoom()){
-    stmt->setInt(6,lente.getZoom_max());
-  } else {
-    stmt->setNull(6,0);
-  }
-  stmt->setString(7,lente.getAbertura());
-
+void TripeDAO::modelToSql(sql::PreparedStatement *stmt, Tripe tripe){
+  stmt->setString(1,tripe.getMarca());
+  stmt->setString(2,tripe.getModelo());
+  stmt->setInt(3,tripe.getPeso());
+  stmt->setInt(4,tripe.getCarga_max());
 }
