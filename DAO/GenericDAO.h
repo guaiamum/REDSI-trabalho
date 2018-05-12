@@ -10,6 +10,7 @@
 #include <string>
 #include <list>
 #include "../Model/Generic.cpp"
+#include "../Model/ProdutoPreco.h"
 
 class GenericDAO {
 protected:

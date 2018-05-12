@@ -10,11 +10,11 @@ class CameraDAO : public GenericDAO{
   static std::string Table;
 public:
   CameraDAO(sql::Connection *con);
-  //MODIFYING
+  // MODIFYING
   void insert(Camera camera);
   void update(Camera camera);
   void remove(int id);
-  //READING
+  // READING
   Camera getById(int id);
   list<Camera> find(string busca);
   list<Camera> listAll();

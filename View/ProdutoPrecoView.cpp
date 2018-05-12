@@ -10,38 +10,38 @@ using namespace std;
 
 class ProdutoPrecoView {
 public:
-  inline static void printList(list<ProdutoPreco> precos, bool com_cabecalho = true);
-  inline static void printOne(ProdutoPreco preco);
+  inline static void printList(list<ProdutoPreco> precos, bool imprime_cabecalho = true, bool imprime_id = true);
+  inline static void printOne(ProdutoPreco preco, bool imprime_cabecalho = false, bool imprime_id = true);
 };
 
-void ProdutoPrecoView::printList(list<ProdutoPreco> precos, bool com_cabecalho){
-  int espaco_inicial = 5, espaco_meio = 15;
+void ProdutoPrecoView::printList(list<ProdutoPreco> precos, bool imprime_cabecalho, bool imprime_id){
+  int espaco_inicial = (imprime_id) ? 5 : 0, espaco_meio = 15;
 
   //CABEÇALHO
-  if(com_cabecalho){
-  cout << setw(espaco_inicial) << "Id"
+  if(imprime_cabecalho){
+    cout << setw(espaco_inicial) << ((imprime_id) ? "Id" : "")
     // << setw(espaco_meio) << "Tipo do Produto"
     << setw(espaco_meio) << "Estado"
     << setw(espaco_meio) << "Quantidade"
-    << setw(espaco_meio) << "Preço(€)"
+    << setw(espaco_meio) << "Preço"
 
     << endl << endl;
   }
 
   //CORPO
   for (auto c : precos){
-    cout << setw(espaco_inicial) << c.getId()
+    cout << setw(espaco_inicial) << ((imprime_id) ? std::to_string(c.getId()) : "")
       // << setw(espaco_meio) << c.getTipo_Produto()
       << setw(espaco_meio) << c.getNovoString()
       << setw(espaco_meio) << c.getQuantidade()
-      << setw(espaco_meio) << c.getPreco()
+      << setw(espaco_meio) << c.getPreco() << "€"
 
       << endl;
   }
   cout << endl;
 }
 
-void ProdutoPrecoView::printOne(ProdutoPreco preco){
+void ProdutoPrecoView::printOne(ProdutoPreco preco, bool imprime_cabecalho, bool imprime_id){
   if(preco.getId() == 0){
     cout << "Preço não encontrada!\n";
     return;
@@ -49,7 +49,7 @@ void ProdutoPrecoView::printOne(ProdutoPreco preco){
 
   list<ProdutoPreco> uma_so;
   uma_so.push_back(preco);
-  printList(uma_so, false);
+  printList(uma_so, imprime_cabecalho, imprime_id);
 
 }
 

@@ -21,12 +21,13 @@
 #include "View/CameraView.cpp"
 
 #include "DAO/LenteDAO.h"
-// #include "DAO/LenteView.cpp"
+#include "View/LenteView.cpp"
 
 #include "DAO/ProdutoPrecoDAO.h"
 #include "View/ProdutoPrecoView.cpp"
 
 #include "Model/CarrinhoCompras.h"
+#include "View/CarrinhoComprasView.cpp"
 
 using namespace std;
 
@@ -50,12 +51,15 @@ int main(int argc, const char **argv)
     con->setSchema(database);
     /* Create them tables */
     // stmt = con->createStatement();stmt->execute("DROP TABLE IF EXISTS test");stmt->execute("CREATE TABLE test(id INT)");delete stmt;
-
+  
+  
     // DECLARANDO VARIAVEIS
     string user; int id = 0; 
     CarrinhoCompras car = CarrinhoCompras();
+    //DAO's
     CameraDAO camera_manager = CameraDAO(con);
     ProdutoPrecoDAO precos_manager = ProdutoPrecoDAO(con);
+    LenteDAO lente_manager = LenteDAO(con);
 
     //INTRODUCAO
     cout << "\nDigite seu nome: ";
@@ -65,7 +69,6 @@ int main(int argc, const char **argv)
     cout << "\nOlá, " + user + "! A seguir estão as cameras disponíveis, pressiona enter para prosseguir\n";
     cin.ignore();
     CameraView::printList(camera_manager.listAll());
-
     //SELECIONA CAMERA
     cout << "\nAgora entre com o Id da camera desejada:\n";
     id = Generic::readPosInt();
@@ -77,16 +80,35 @@ int main(int argc, const char **argv)
     cout << "\n A seguir estão as unidades disponíveis, pressiona enter para prosseguir\n";
     cin.ignore();
     ProdutoPrecoView::printList(camera_manager.getPriceById(id));
-
     //SELECIONA UNIDADE DE CAMERA
     cout << "\nAgora entre com o Id da unidade desejada:\n";
     id = Generic::readPosInt();
     car.precos.push_back(precos_manager.getById(id));
-    cout << "Unidade adicionada ao carrinho!";
-    // ProdutoPrecoView::printOne(car.precos);
+    cout << "Unidade adicionada ao carrinho!" << endl;
 
     //LISTA LENTES MARCA
-    
+    string marca = car.camera.getMarca();
+    cout << "\n A seguir estão as lentes disponíveis, pressiona enter para prosseguir\n";
+    cin.ignore();
+    LenteView::printList(lente_manager.getByMarca(marca));
+    //SELECIONA LENTE
+    cout << "\nAgora entre com o Id da lente desejada: ";
+    id = Generic::readPosInt();
+    car.lente = lente_manager.getById(id);
+    cout << "A lente seguinte foi adicionada ao carrinho! ";
+    LenteView::printOne(car.lente);
+
+    //LISTA UNIDADES DE LENTES
+    cout << "\n A seguir estão as unidades disponíveis, pressiona enter para prosseguir\n";
+    cin.ignore();
+    ProdutoPrecoView::printList(lente_manager.getPriceById(id));
+    //SELECIONA UNIDADE DE LENTE
+    cout << "\nAgora entre com o Id da unidade desejada: ";
+    id = Generic::readPosInt();
+    car.precos.push_back(precos_manager.getById(id));
+    cout << "Unidade adicionada ao carrinho!" << endl;
+
+    CarrinhoComprasView::printProducts(car);
 
 
     /* FREE POINTERS */
@@ -110,6 +132,6 @@ int main(int argc, const char **argv)
     return EXIT_FAILURE;
   }
 
-  cout << "Done." << endl;
+  cout << "Bye :)" << endl;
   return EXIT_SUCCESS;
 }

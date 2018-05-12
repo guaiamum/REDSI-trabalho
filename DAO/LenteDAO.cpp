@@ -20,23 +20,78 @@ LenteDAO::LenteDAO(sql::Connection* con) : GenericDAO(con){}
     @return an object .
 */
 Lente LenteDAO::getById(int id){
-  sql::Statement *stmt;
+  sql::PreparedStatement *stmt;
   sql::ResultSet  *res;
-  string query = "SELECT $.* FROM $ WHERE $.Id = " + std::to_string(id);
+  string query = "SELECT $.* FROM $ WHERE $.Id = ?";
   Generic::findAndReplaceAll(query, "$", this->Table);
 
   /* Preparing statement */
-  stmt = this->con->createStatement();
-  res = stmt->executeQuery(query);
+  stmt = this->con->prepareStatement(query);
+  stmt->setInt(1,id);
+
+  /* Executing query */  
+  res = stmt->executeQuery();
 
   /* Parsing to Model structure */
-  Lente lente = sqlToModel(res);
+  Lente lente;
+  if(res->next()){
+    lente = sqlToModel(res);
+  } 
 
   /* Free pointers */
   delete stmt;
   delete res;
 
   return lente;
+}
+
+
+/**
+    Gets all objects from the Price table
+
+    @param int Id.
+    @return an object.
+*/
+list<ProdutoPreco> LenteDAO::getPriceById(int id){
+  ProdutoPrecoDAO *prod_man = new ProdutoPrecoDAO(this->con);
+  list<ProdutoPreco> precos;
+
+  precos = prod_man->getPriceByFk(id,this->Table);
+
+  delete prod_man;
+
+  return precos ;
+}
+
+/**
+    Gets a list of objects corresponding to the search.
+
+    @param int Id.
+    @return an object .
+*/
+list<Lente> LenteDAO::getByMarca(string marca){
+  sql::Statement *stmt;
+  sql::ResultSet  *res;
+  string query = "SELECT * FROM $ WHERE `Marca` LIKE '%"+marca+"%'";
+  Generic::findAndReplaceAll(query, "$", this->Table);
+
+  /* Preparing statement */
+  stmt = this->con->createStatement();
+
+  /* Execute statement */
+  res = stmt->executeQuery(query);
+
+  /* Parsing to Model structure */
+  list<Lente> lentes;
+  while(res->next()){
+    lentes.push_back(sqlToModel(res));
+  }
+
+  /* Free pointers */
+  delete stmt;
+  delete res;
+
+  return lentes;
 }
 
 /**
@@ -91,21 +146,16 @@ void LenteDAO::update(Lente lente){
     @return an object .
 */
 Lente LenteDAO::sqlToModel(sql::ResultSet *res){
-  Lente lente = Lente();
-
-  /* Checks if there are results, and set the properties */
-  if (res->next()) {
-      lente.setId(res->getInt("Id"));
-      lente.setMarca(res->getString("Marca"));
-      lente.setModelo(res->getString("Modelo"));
-      lente.setPeso(res->getInt("Peso"));
-      lente.setZoom(res->getInt("Zoom"));
-      lente.setZoom_min(res->getInt("Zoom_min"));
-      lente.setZoom_max(res->getInt("Zoom_max"));
-      lente.setAbertura(res->getString("Abertura"));
-    }
-
-  return lente;
+  return Lente(
+    res->getInt("Id"),
+    res->getString("Marca"),
+    res->getString("Modelo"),
+    res->getInt("Peso"),
+    res->getInt("Zoom"),
+    res->getInt("Zoom_min"),
+    res->getInt("Zoom_max"),
+    res->getString("Abertura")
+  );
 }
 
 /**

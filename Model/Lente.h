@@ -17,6 +17,7 @@ public:
   int getZoom_min();
   int getZoom_max();
   string getAbertura();
+  string getZoomString();
   string getAllInfo();
   //SETTERS
   void setZoom(bool zoom);

@@ -49,5 +49,4 @@ int Generic::readPosInt(){
 	return x;
 }
 
-
 #endif

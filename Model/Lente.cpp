@@ -51,8 +51,11 @@ string Lente::getAbertura(){
   return Abertura;
 }
 string Lente::getAllInfo(){
-  string zoom_max = (Zoom) ? "-" + std::to_string(Zoom_max) : "";
-  return Marca + ' ' + Modelo + " - " + std::to_string(Zoom_min)+ zoom_max +"mm - " + (Abertura) + " (" + std::to_string(Peso) + "g)";
+  return Marca + ' ' + Modelo + " - " + getZoomString() + " - " + (Abertura) + " (" + std::to_string(Peso) + "g)";
+}
+string Lente::getZoomString(){
+  string zoom_max = (Zoom) ? ("-" + std::to_string(Zoom_max)) : "";
+  return std::to_string(Zoom_min)+ zoom_max +"mm";
 }
 
 //SETTERS
