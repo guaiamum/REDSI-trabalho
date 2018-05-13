@@ -31,7 +31,7 @@ ProdutoPreco.o: Model/ProdutoPreco.cpp
 	g++ -c Model/ProdutoPreco.cpp
 
 CarrinhoCompras.o: Model/CarrinhoCompras.cpp
-	g++ -c Model/CarrinhoCompras.cpp
+	g++ -c Model/CarrinhoCompras.cpp -std=c++11
 
 #DAO
 GenericDAO.o: DAO/GenericDAO.cpp

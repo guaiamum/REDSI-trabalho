@@ -159,6 +159,31 @@ int main(int argc, const char **argv)
     cout << "Unidade adicionada ao carrinho!" << endl;
 
     /***************************************************************************/
+    /******************              TRIPE              ************************/
+
+
+    //LISTA FLASH MARCA
+    cout << "\n A seguir estão os tripes disponíveis, pressiona enter para prosseguir\n";
+    cin.ignore();
+    TripeView::printList(tripe_manager.getByCarga_max(car.getCarga()));
+    //SELECIONA FLASH
+    cout << "\nAgora entre com o Id do tripe desejado: ";
+    id = Generic::readPosInt();
+    car.tripe = tripe_manager.getById(id);
+    cout << "O tripe seguinte foi adicionado ao carrinho! ";
+    TripeView::printOne(car.tripe);
+
+    //LISTA UNIDADES DE FLASH
+    cout << "\n A seguir estão as unidades disponíveis, pressiona enter para prosseguir\n";
+    cin.ignore();
+    ProdutoPrecoView::printList(tripe_manager.getPriceById(id));
+    //SELECIONA UNIDADE DE FLASH
+    cout << "\nAgora entre com o Id da unidade desejada: ";
+    id = Generic::readPosInt();
+    car.precos.push_back(precos_manager.getById(id));
+    cout << "Unidade adicionada ao carrinho!" << endl;
+    
+    /***************************************************************************/
     /******************            CARRINHO             ************************/
 
 

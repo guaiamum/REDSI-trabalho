@@ -45,18 +45,6 @@ void CarrinhoComprasView::printProducts(CarrinhoCompras carrinho, bool imprime_c
   ProdutoPrecoView::printOne(*++it, false, false);
   
   cout << endl;
-  /*
-  CarrinhoCompras();
-  Camera camera;
-  Lente lente;
-  Flash flash;
-  Tripe tripe;
-  list<ProdutoPreco> precos;
-  bool validateLente(Lente lente);
-  bool validateFlash(Flash flash);
-  bool validateTripe(Tripe tripe);
-  float getValorTotal();
-*/
 }
 
 #endif

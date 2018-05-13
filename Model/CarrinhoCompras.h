@@ -20,7 +20,8 @@ public:
     bool validateLente(Lente lente);
     bool validateFlash(Flash flash);
     bool validateTripe(Tripe tripe);
-    float getValorTotal();
+    float getPrecoTotal();
+    int getCarga();
 };
 
 #endif

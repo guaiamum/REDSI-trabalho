@@ -20,15 +20,25 @@ bool CarrinhoCompras::validateFlash(Flash flash){
 }
 
 bool CarrinhoCompras::validateTripe(Tripe tripe){
+    return tripe.getCarga_max() >= getCarga();
+}
+
+float CarrinhoCompras::getPrecoTotal(){
+    float precoTotal = 0; 
+    
+    for(auto p : precos){
+        precoTotal += p.getPreco();
+    }
+    
+    return precoTotal;
+}
+
+int CarrinhoCompras::getCarga(){
     int pesoTotal = 0; 
     
     pesoTotal += camera.getPeso();
     pesoTotal += lente.getPeso();
     pesoTotal += flash.getPeso();
-
-    return tripe.getCarga_max() >= pesoTotal;
-}
-
-float CarrinhoCompras::getValorTotal(){
-    return 1;
+    
+    return pesoTotal;
 }
