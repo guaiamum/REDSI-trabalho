@@ -12,6 +12,7 @@ class TripeView {
 public:
   inline static void printList(list<Tripe> tripes, bool imprime_cabecalho = true, bool imprime_id = true);
   inline static void printOne(Tripe tripe, bool imprime_cabecalho = false, bool imprime_id = true);
+  inline static void printWithPrice(Tripe tripe, ProdutoPreco preco);
 };
 
 void TripeView::printList(list<Tripe> tripes, bool imprime_cabecalho, bool imprime_id){
@@ -53,4 +54,16 @@ void TripeView::printOne(Tripe tripe, bool imprime_cabecalho, bool imprime_id){
 
 }
 
+void TripeView::printWithPrice(Tripe tripe, ProdutoPreco preco){
+  int espaco_inicial = 5, espaco_meio = 15;
+  
+  cout << setw(espaco_inicial) << tripe.getMarca()
+      << setw(espaco_meio) << tripe.getModelo()
+      << setw(espaco_meio) << "max: " << tripe.getCarga_max() << "g"
+      << setw(espaco_meio) << "(" << tripe.getPeso() << "g)"
+
+      << setw(espaco_meio) << preco.getNovoString()
+      << setw(espaco_meio) << preco.getPreco()
+      <<endl;
+}
 #endif

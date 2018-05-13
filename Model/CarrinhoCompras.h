@@ -16,7 +16,9 @@ public:
     Flash flash;
     Tripe tripe;
     list<ProdutoPreco> precos;
-    bool validatePreco(string tipo_preco,string tipo_produto);
+    // METHODS
+    ProdutoPreco getPrecoByTipo(string tipo_produto);
+    bool validatePreco(ProdutoPreco preco, string tipo_produto, int id);
     bool validateLente(Lente lente);
     bool validateFlash(Flash flash);
     bool validateTripe(Tripe tripe);

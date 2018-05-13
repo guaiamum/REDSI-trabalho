@@ -12,6 +12,7 @@ class FlashView {
 public:
   inline static void printList(list<Flash> flashs, bool imprime_cabecalho = true, bool imprime_id = true);
   inline static void printOne(Flash flash, bool imprime_cabecalho = false, bool imprime_id = true);
+  inline static void printWithPrice(Flash flash, ProdutoPreco preco);
 };
 
 void FlashView::printList(list<Flash> flashs, bool imprime_cabecalho, bool imprime_id){
@@ -49,6 +50,18 @@ void FlashView::printOne(Flash flash, bool imprime_cabecalho, bool imprime_id){
   uma_so.push_back(flash);
   printList(uma_so, imprime_cabecalho, imprime_id);
 
+}
+
+void FlashView::printWithPrice(Flash flash, ProdutoPreco preco){
+  int espaco_inicial = 5, espaco_meio = 15;
+  
+  cout << setw(espaco_inicial) << flash.getMarca()
+      << setw(espaco_meio) << flash.getModelo()
+      << setw(espaco_meio) << flash.getPeso() << "g"
+
+      << setw(espaco_meio) << preco.getNovoString()
+      << setw(espaco_meio) << preco.getPreco()
+      <<endl;
 }
 
 #endif

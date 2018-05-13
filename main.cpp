@@ -83,6 +83,7 @@ int main(int argc, const char **argv)
     CameraView::printList(camera_manager.listAll());
     //SELECIONA CAMERA
     Camera *camera = new Camera();
+    //*VALIDACAO
     while(camera->getId() == 0){
       cout << "\nAgora entre com o Id da camera desejada:\n";
       id = Generic::readPosInt();
@@ -91,7 +92,7 @@ int main(int argc, const char **argv)
     car.camera = *camera;
     delete camera;
     cout << "A camera seguinte foi adicionada ao carrinho! ";
-    CameraView::printOne(car.camera);
+    CameraView::printOne(car.camera,false,false);
 
     //LISTA UNIDADES DE CAMERAS
     cout << "\n A seguir estão as unidades disponíveis, pressiona enter para prosseguir\n";
@@ -99,12 +100,14 @@ int main(int argc, const char **argv)
     ProdutoPrecoView::printList(camera_manager.getPriceById(id));
     //SELECIONA UNIDADE DE CAMERA
     ProdutoPreco *preco = new ProdutoPreco();
-    while(!car.validatePreco(preco->getTipo_Produto(),"CAMERA")){
+    //*VALIDACAO
+    while(!car.validatePreco(*preco,"CAMERA",car.camera.getId())){
       cout << "\nAgora entre com o Id da unidade desejada:\n";
       id = Generic::readPosInt();
       preco = new ProdutoPreco(precos_manager.getById(id));
     }
     car.precos.push_back(*preco);
+    delete preco;
     cout << "Unidade adicionada ao carrinho!" << endl;
 
     /***************************************************************************/
@@ -112,14 +115,20 @@ int main(int argc, const char **argv)
     
     
     //LISTA LENTES MARCA
-    static string marca = car.camera.getMarca();
+    const string marca = car.camera.getMarca();
     cout << "\n A seguir estão as lentes disponíveis, pressiona enter para prosseguir\n";
     cin.ignore();
     LenteView::printList(lente_manager.getByMarca(marca));
     //SELECIONA LENTE
-    cout << "\nAgora entre com o Id da lente desejada: ";
-    id = Generic::readPosInt();
-    car.lente = lente_manager.getById(id);
+    Lente *lente = new Lente();
+    //*VALIDACAO
+    while(lente->getId() == 0 || lente->getMarca() != marca){
+      cout << "\nAgora entre com o Id da lente desejada: ";
+      id = Generic::readPosInt();
+      lente = new Lente(lente_manager.getById(id));
+    }
+    car.lente = *lente;
+    delete lente;
     cout << "A lente seguinte foi adicionada ao carrinho! ";
     LenteView::printOne(car.lente);
 
@@ -128,9 +137,14 @@ int main(int argc, const char **argv)
     cin.ignore();
     ProdutoPrecoView::printList(lente_manager.getPriceById(id));
     //SELECIONA UNIDADE DE LENTE
-    cout << "\nAgora entre com o Id da unidade desejada: ";
-    id = Generic::readPosInt();
-    car.precos.push_back(precos_manager.getById(id));
+    preco = new ProdutoPreco();
+    while(!car.validatePreco(*preco,"LENTE",car.lente.getId())){
+      cout << "\nAgora entre com o Id da unidade desejada:\n";
+      id = Generic::readPosInt();
+      preco = new ProdutoPreco(precos_manager.getById(id));
+    }
+    car.precos.push_back(*preco);
+    delete preco;
     cout << "Unidade adicionada ao carrinho!" << endl;
 
     /***************************************************************************/
@@ -142,9 +156,15 @@ int main(int argc, const char **argv)
     cin.ignore();
     FlashView::printList(flash_manager.getByMarca(marca));
     //SELECIONA FLASH
-    cout << "\nAgora entre com o Id do flash desejado: ";
-    id = Generic::readPosInt();
-    car.flash = flash_manager.getById(id);
+    Flash *flash = new Flash();
+    //*VALIDACAO
+    while(flash->getId() == 0 || flash->getMarca() != marca){
+      cout << "\nAgora entre com o Id do flash desejado: ";
+      id = Generic::readPosInt();
+      flash = new Flash(flash_manager.getById(id));
+    }
+    car.flash = *flash;
+    delete flash;
     cout << "O flash seguinte foi adicionado ao carrinho! ";
     FlashView::printOne(car.flash);
 
@@ -153,34 +173,50 @@ int main(int argc, const char **argv)
     cin.ignore();
     ProdutoPrecoView::printList(flash_manager.getPriceById(id));
     //SELECIONA UNIDADE DE FLASH
-    cout << "\nAgora entre com o Id da unidade desejada: ";
-    id = Generic::readPosInt();
-    car.precos.push_back(precos_manager.getById(id));
+    preco = new ProdutoPreco();
+    while(!car.validatePreco(*preco,"FLASH",car.flash.getId())){
+      cout << "\nAgora entre com o Id da unidade desejada:\n";
+      id = Generic::readPosInt();
+      preco = new ProdutoPreco(precos_manager.getById(id));
+    }
+    car.precos.push_back(*preco);
+    delete preco;
     cout << "Unidade adicionada ao carrinho!" << endl;
 
     /***************************************************************************/
     /******************              TRIPE              ************************/
 
 
-    //LISTA FLASH MARCA
+    //LISTA TRIPE MARCA
+    const int carga = car.getCarga();
     cout << "\n A seguir estão os tripes disponíveis, pressiona enter para prosseguir\n";
     cin.ignore();
-    TripeView::printList(tripe_manager.getByCarga_max(car.getCarga()));
-    //SELECIONA FLASH
-    cout << "\nAgora entre com o Id do tripe desejado: ";
-    id = Generic::readPosInt();
-    car.tripe = tripe_manager.getById(id);
+    TripeView::printList(tripe_manager.getByCarga_max(carga));
+    //SELECIONA TRIPE
+    Tripe *tripe = new Tripe();
+    while(tripe->getId() == 0 || tripe->getCarga_max() < carga){
+      cout << "\nAgora entre com o Id do tripe desejado: ";
+      id = Generic::readPosInt();
+      tripe = new Tripe(tripe_manager.getById(id));
+    }
+    car.tripe = *tripe;
+    delete tripe;
     cout << "O tripe seguinte foi adicionado ao carrinho! ";
     TripeView::printOne(car.tripe);
 
-    //LISTA UNIDADES DE FLASH
+    //LISTA UNIDADES DE TRIPE
     cout << "\n A seguir estão as unidades disponíveis, pressiona enter para prosseguir\n";
     cin.ignore();
     ProdutoPrecoView::printList(tripe_manager.getPriceById(id));
-    //SELECIONA UNIDADE DE FLASH
-    cout << "\nAgora entre com o Id da unidade desejada: ";
-    id = Generic::readPosInt();
-    car.precos.push_back(precos_manager.getById(id));
+    //SELECIONA UNIDADE DE TRIPE
+    preco = new ProdutoPreco();
+    while(!car.validatePreco(*preco,"TRIPE",car.tripe.getId())){
+      cout << "\nAgora entre com o Id da unidade desejada:\n";
+      id = Generic::readPosInt();
+      preco = new ProdutoPreco(precos_manager.getById(id));
+    }
+    car.precos.push_back(*preco);
+    delete preco;
     cout << "Unidade adicionada ao carrinho!" << endl;
     
     /***************************************************************************/

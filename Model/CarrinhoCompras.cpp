@@ -1,4 +1,5 @@
 #include "CarrinhoCompras.h"
+// #include <iostream>
 
 CarrinhoCompras::CarrinhoCompras(){
     camera = Camera();
@@ -7,9 +8,22 @@ CarrinhoCompras::CarrinhoCompras(){
     tripe = Tripe();
 }
 
-bool CarrinhoCompras::validatePreco(string tipo_preco,string tipo_produto){
-    return (tipo_preco == tipo_produto);
+ProdutoPreco CarrinhoCompras::getPrecoByTipo(string tipo_produto){
+    std::list<ProdutoPreco>::iterator first = precos.begin();
+    std::list<ProdutoPreco>::iterator last = precos.end();
+
+    while (first != last) {
+        if (first->getTipo_Produto() == tipo_produto) return *first;
+        ++first;
+    }
+  return *last;
 }
+
+bool CarrinhoCompras::validatePreco(ProdutoPreco preco, string tipo_produto, int id){
+    // cout << preco.getTipo_Produto() << endl << preco.getFk_Produto;
+    return (preco.getTipo_Produto() == tipo_produto && preco.getFk_Produto() == id);
+}
+
 
 bool CarrinhoCompras::validateLente(Lente lente){
     return (lente.getMarca() == camera.getMarca());

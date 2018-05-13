@@ -36,7 +36,7 @@ list<Camera> CameraDAO::find(string busca){
 }
 
 /**
-    Finds all objects with properties that look like the given string.
+    Gets all objects in the database.
 
     @param string Busca.
     @return list of objects.

@@ -26,23 +26,33 @@ public:
     @return nothing .
 */
 void CarrinhoComprasView::printProducts(CarrinhoCompras carrinho, bool imprime_cabecalho){
-  int espaco_inicial = 5, espaco_meio = 15;
-  list<ProdutoPreco>::iterator it = carrinho.precos.begin();
-
+  //INTRO
   cout << "A seguir podes ver o seu carrinho com os produtos selecionados!\n";
 
   //CAMERA
-  CameraView::printOne(carrinho.camera, false, false);
-  ProdutoPrecoView::printOne(*it, false, false);
+  ProdutoPreco it = carrinho.getPrecoByTipo("CAMERA");
+  cout << "Camera: ";
+  CameraView::printWithPrice(carrinho.camera, it);
+
   //LENTE
-  LenteView::printOne(carrinho.lente, false, false);
-  ProdutoPrecoView::printOne(*++it, false, false);
+  it = carrinho.getPrecoByTipo("LENTE");
+  if (it.getId() == 0) {
+    cout << "Lente: ";
+    LenteView::printWithPrice(carrinho.lente, it);
+  }
+
   //FLASH
-  FlashView::printOne(carrinho.flash, false, false);
-  ProdutoPrecoView::printOne(*++it, false, false);
+  it = carrinho.getPrecoByTipo("FLASH");
+  if (it.getId() == 0) {
+    cout << "Flash: ";
+    FlashView::printWithPrice(carrinho.flash, it);
+  }
   //TRIPE
-  TripeView::printOne(carrinho.tripe, false, false);
-  ProdutoPrecoView::printOne(*++it, false, false);
+  it = carrinho.getPrecoByTipo("TRIPE");
+  if (it.getId() == 0) {
+    cout << "Tripe: ";
+    TripeView::printWithPrice(carrinho.tripe, it);
+  }
   
   cout << endl;
 }

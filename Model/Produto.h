@@ -16,12 +16,12 @@ protected:
 public:
   Produto();
   Produto(int id, string marca, string modelo, int peso);
-  //GETTERS
+  // GETTERS
   int getId();
   string getMarca();
   string getModelo();
   int getPeso();
-  //SETTERS
+  // SETTERS
   void setId(int id);
   void setMarca(string marca);
   void setModelo(string modelo);

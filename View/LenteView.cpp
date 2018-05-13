@@ -12,6 +12,7 @@ class LenteView {
 public:
   inline static void printList(list<Lente> lentes, bool imprime_cabecalho = true, bool imprime_id = true);
   inline static void printOne(Lente lente, bool imprime_cabecalho = false, bool imprime_id = true);
+  inline static void printWithPrice(Lente lente, ProdutoPreco preco);
 };
 
 void LenteView::printList(list<Lente> lentes, bool imprime_cabecalho, bool imprime_id){
@@ -53,6 +54,20 @@ void LenteView::printOne(Lente lente, bool imprime_cabecalho, bool imprime_id){
   uma_so.push_back(lente);
   printList(uma_so, imprime_cabecalho, imprime_id);
 
+}
+
+void LenteView::printWithPrice(Lente lente, ProdutoPreco preco){
+  int espaco_inicial = 5, espaco_meio = 15;
+  
+  cout << setw(espaco_inicial) << lente.getMarca()
+      << setw(espaco_meio) << lente.getModelo()
+      << setw(espaco_meio) << lente.getZoomString()
+      << setw(espaco_meio) << "f" << lente.getAbertura()
+      << setw(espaco_meio) << lente.getPeso() << "g"
+
+      << setw(espaco_meio) << preco.getNovoString()
+      << setw(espaco_meio) << preco.getPreco()
+      <<endl;
 }
 
 #endif
