@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 13, 2018 at 11:32 AM
+-- Generation Time: May 14, 2018 at 08:30 PM
 -- Server version: 5.5.55-0ubuntu0.14.04.1
 -- PHP Version: 7.0.19-1+deb.sury.org~trusty+2
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `CAMERA` (
   `Peso` int(11) NOT NULL DEFAULT '0',
   `Sensor` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `CAMERA`
@@ -44,7 +44,8 @@ INSERT INTO `CAMERA` (`Id`, `Marca`, `Modelo`, `Peso`, `Sensor`) VALUES
 (15, 'Nikon', 'D7000', 130, 'Full-frame'),
 (16, 'Canon', '7D', 1450, 'Full-frame'),
 (18, 'Nikon', 'D3100', 130, 'APS-C'),
-(19, 'Sony', 'A90', 370, 'APS-C');
+(19, 'Sony', 'A90', 370, 'APS-C'),
+(22, 'Sony', 'Alpha A7', 890, 'ASP-C');
 
 -- --------------------------------------------------------
 
@@ -116,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `PRODUTO_PRECO` (
   PRIMARY KEY (`Id`),
   KEY `Fk_Produto` (`Fk_Produto`),
   KEY `Fk_Produto_2` (`Fk_Produto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
 -- Dumping data for table `PRODUTO_PRECO`
@@ -128,7 +129,20 @@ INSERT INTO `PRODUTO_PRECO` (`Id`, `Fk_Produto`, `Tipo_Produto`, `Novo`, `Preco`
 (3, 15, 'CAMERA', b'1', 355.97, 3),
 (4, 4, 'LENTE', b'1', 2550.78, 2),
 (5, 1, 'FLASH', b'0', 129.99, 1),
-(6, 1, 'TRIPE', b'0', 119.98, 2);
+(6, 1, 'TRIPE', b'0', 119.98, 2),
+(7, 3, 'LENTE', b'0', 3000.02, 1),
+(8, 2, 'TRIPE', b'1', 1400.87, 5),
+(9, 2, 'TRIPE', b'1', 1398.87, 4),
+(10, 18, 'CAMERA', b'1', 3000.01, 4),
+(11, 19, 'CAMERA', b'0', 2398.54, 4),
+(12, 1, 'LENTE', b'1', 3200.01, 2),
+(13, 2, 'LENTE', b'0', 2398.54, 1),
+(14, 6, 'LENTE', b'1', 3200.01, 2),
+(15, 7, 'LENTE', b'0', 4200.01, 7),
+(16, 8, 'LENTE', b'1', 1256.01, 6),
+(17, 2, 'FLASH', b'1', 298.01, 2),
+(18, 3, 'FLASH', b'1', 453.01, 2),
+(19, 22, 'CAMERA', b'0', 799.98, 1);
 
 -- --------------------------------------------------------
 
@@ -143,14 +157,15 @@ CREATE TABLE IF NOT EXISTS `TRIPE` (
   `Peso` int(11) NOT NULL DEFAULT '0',
   `Carga_max` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `TRIPE`
 --
 
 INSERT INTO `TRIPE` (`Id`, `Marca`, `Modelo`, `Peso`, `Carga_max`) VALUES
-(1, 'Manfrotto', 'SP20', 540, 1300);
+(1, 'Manfrotto', 'SP20', 540, 1300),
+(2, 'YUNTENG', 'VCT-190', 1300, 2500);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

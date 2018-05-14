@@ -12,6 +12,7 @@ class ProdutoPrecoView {
 public:
   inline static void printList(list<ProdutoPreco> precos, bool imprime_cabecalho = true, bool imprime_id = true);
   inline static void printOne(ProdutoPreco preco, bool imprime_cabecalho = false, bool imprime_id = true);
+  inline static ProdutoPreco readOne(int fk, string tipo);
 };
 
 void ProdutoPrecoView::printList(list<ProdutoPreco> precos, bool imprime_cabecalho, bool imprime_id){
@@ -51,6 +52,29 @@ void ProdutoPrecoView::printOne(ProdutoPreco preco, bool imprime_cabecalho, bool
   uma_so.push_back(preco);
   printList(uma_so, imprime_cabecalho, imprime_id);
 
+}
+
+ProdutoPreco ProdutoPrecoView::readOne(int fk, string tipo){
+  ProdutoPreco preco = ProdutoPreco();
+  string str; int inteiro = 0;
+
+  preco.setFk_Produto(fk);
+  preco.setTipo_Produto(tipo);
+  
+  cout <<  "Entre com a quantidade: ";
+  cin >> inteiro;
+  preco.setQuantidade(inteiro);
+
+  cout <<  "Entre com 1 se for novo: ";
+  cin >> inteiro;
+  preco.setNovo(inteiro == 1);
+
+  cout <<  "Entre com o valor: ";
+  float valor = 0;
+  cin >> valor;
+  preco.setPreco(valor);
+
+  return preco;
 }
 
 #endif

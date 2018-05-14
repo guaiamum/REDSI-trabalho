@@ -11,9 +11,12 @@ using namespace std;
 
 class CameraView {
 public:
+  //printing
   inline static void printList(list<Camera> cameras, bool imprime_cabecalho = true, bool imprime_id = true);
   inline static void printOne(Camera camera, bool imprime_cabecalho = false, bool imprime_id = true);
   inline static void printWithPrice(Camera camera, ProdutoPreco preco);
+  //reading
+  inline static Camera readOne();
 };
 
 void CameraView::printList(list<Camera> cameras, bool imprime_cabecalho, bool imprime_id){
@@ -66,6 +69,30 @@ void CameraView::printWithPrice(Camera camera, ProdutoPreco preco){
       << setw(espaco_meio) << preco.getNovoString()
       << setw(espaco_meio) << preco.getPreco()
       << endl << endl;
+}
+
+Camera CameraView::readOne(){
+  Camera camera = Camera();
+  string str; int inteiro = 0;
+
+  cout <<  "Entre com a Marca: ";
+  std::getline(std::cin,str);
+  camera.setMarca(str);
+
+  cout <<  "Entre com a Model: ";
+  std::getline(std::cin,str);
+  camera.setModelo(str);
+
+  cout <<  "Entre com a Peso: ";
+  cin >> inteiro;
+  cin.ignore();  
+  camera.setPeso(inteiro);
+
+  cout <<  "Entre com a Sensor: ";
+  std::getline(std::cin,str);
+  camera.setSensor(str);
+
+  return camera;
 }
 
 #endif
