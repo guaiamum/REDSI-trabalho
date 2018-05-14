@@ -64,6 +64,6 @@ void TripeView::printWithPrice(Tripe tripe, ProdutoPreco preco){
 
       << setw(espaco_meio) << preco.getNovoString()
       << setw(espaco_meio) << preco.getPreco()
-      <<endl;
+      << endl << endl;
 }
 #endif

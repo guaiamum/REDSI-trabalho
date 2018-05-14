@@ -27,7 +27,7 @@ public:
 */
 void CarrinhoComprasView::printProducts(CarrinhoCompras carrinho, bool imprime_cabecalho){
   //INTRO
-  cout << "A seguir podes ver o seu carrinho com os produtos selecionados!\n";
+  cout << "A seguir podes ver o seu carrinho com os produtos selecionados!\n" << endl;
 
   //CAMERA
   ProdutoPreco it = carrinho.getPrecoByTipo("CAMERA");
@@ -36,23 +36,23 @@ void CarrinhoComprasView::printProducts(CarrinhoCompras carrinho, bool imprime_c
 
   //LENTE
   it = carrinho.getPrecoByTipo("LENTE");
-  if (it.getId() == 0) {
+  // if (it.getId() == 0) {
     cout << "Lente: ";
     LenteView::printWithPrice(carrinho.lente, it);
-  }
+  // }
 
   //FLASH
   it = carrinho.getPrecoByTipo("FLASH");
-  if (it.getId() == 0) {
+  // if (it.getId() == 0) {
     cout << "Flash: ";
     FlashView::printWithPrice(carrinho.flash, it);
-  }
+  // }
   //TRIPE
   it = carrinho.getPrecoByTipo("TRIPE");
-  if (it.getId() == 0) {
+  // if (it.getId() == 0) {
     cout << "Tripe: ";
     TripeView::printWithPrice(carrinho.tripe, it);
-  }
+  // }
   
   cout << endl;
 }

@@ -61,7 +61,7 @@ void FlashView::printWithPrice(Flash flash, ProdutoPreco preco){
 
       << setw(espaco_meio) << preco.getNovoString()
       << setw(espaco_meio) << preco.getPreco()
-      <<endl;
+      << endl << endl;
 }
 
 #endif

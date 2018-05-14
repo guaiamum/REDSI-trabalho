@@ -67,7 +67,7 @@ void LenteView::printWithPrice(Lente lente, ProdutoPreco preco){
 
       << setw(espaco_meio) << preco.getNovoString()
       << setw(espaco_meio) << preco.getPreco()
-      <<endl;
+      << endl << endl;
 }
 
 #endif
